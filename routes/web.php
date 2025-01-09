@@ -1,0 +1,83 @@
+<?php
+
+use App\Http\Controllers\Admin\ArticleController;
+use App\Http\Controllers\Admin\BlogController;
+use App\Http\Controllers\Admin\CallRequestController;
+use App\Http\Controllers\Admin\ContactController;
+use App\Http\Controllers\Admin\ExperienceController;
+use App\Http\Controllers\Admin\FresherController;
+use App\Http\Controllers\Admin\HiringController;
+use App\Http\Controllers\Admin\OpenVacancieController;
+use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Route;
+
+Route::get('/', function () {
+    return redirect('admin/login');
+});
+
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+
+    // CRUD Routes for Contact
+    Route::prefix('admin')->group(function () {
+
+        // contact
+        Route::get('/contacts', [ContactController::class, 'index']);
+        // Route::get('/create', [ContactController::class, 'create'])->name('contact.create');
+         //Route::post('/stores', [ContactController::class, 'store']);
+        // Route::get('/edit/{id}', [ContactController::class, 'edit'])->name('contact.edit');
+        // Route::put('/update/{id}', [ContactController::class, 'update'])->name('contact.update');
+        Route::delete('/contacts/delete/{id}', [ContactController::class, 'destroy']);
+
+
+        // call request
+        Route::get('/call',[CallRequestController::class,'index']);
+        Route::delete('/call/delete/{id}', [CallRequestController::class, 'destroy']);
+
+
+        // for fresher
+        Route::get('/fresher',[FresherController::class,'index']);
+        Route::delete('/fresher/delete/{id}', [FresherController::class, 'destroy']);
+
+
+        Route::get('/experience',[ExperienceController::class,'index']);
+        Route::delete('/experience/delete/{id}', [ExperienceController::class, 'destroy']);
+
+        Route::get('/openvacancie',[OpenVacancieController::class,'index']);
+        Route::delete('/openvacancie/delete/{id}', [OpenVacancieController::class, 'destroy']);
+
+
+        // hiring
+        Route::get('/hiring',[HiringController::class,'create']);
+
+        Route::get('hiring/index',[HiringController::class,'index']);
+
+        Route::get('/hiring/edit/{id}', [HiringController::class, 'edit']);
+        Route::delete('/hiring/delete/{id}', [HiringController::class, 'destroy']);
+
+
+        Route::post('hiring/store',[HiringController::class,'store']);
+
+
+
+    });
+
+
+
+
+
+
+require __DIR__.'/auth.php';
+
+require __DIR__.'/admin-auth.php';
