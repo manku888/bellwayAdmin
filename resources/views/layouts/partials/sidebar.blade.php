@@ -84,6 +84,20 @@
                             <!-- blog -->
                             <a class="nav-link" href="#">Blogs</a>
 
+                            <!-- Give Permissions Section -->
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePermissions" aria-expanded="false" aria-controls="collapsePermissions">
+                            <div class="sb-nav-link-icon"><i class="fas fa-user-shield"></i></div>
+                            User Management
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapsePermissions" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="#">Roles</a>
+                                <a class="nav-link" href="{{url('admin/permissions/create')}}">Permissions</a>
+                                <!-- <a class="nav-link" href="#">Articles</a> -->
+                                <a class="nav-link" href="#">User Section</a>
+                            </nav>
+                        </div>
 
                         </div>
                     </div>
