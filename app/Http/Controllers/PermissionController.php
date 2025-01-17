@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use GuzzleHttp\Promise\Create;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Permission;
@@ -12,6 +13,8 @@ class PermissionController extends Controller
 
        $permissions = Permission::orderBy('created_at','desc')->paginate(10);
         return view('permissions.list' ,compact('permissions'));
+        // // dd($permissions);
+        // $permissions = Permission::all();
         // return view('permissions.create' ,compact('permissions'));
     }
 

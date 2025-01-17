@@ -78,6 +78,16 @@ Route::middleware('auth')->group(function () {
         Route::post('/permissions/{id}', [PermissionController::class, 'update'])->name('permissions.update');
         Route::delete('/permissions/{id}', [PermissionController::class, 'destroy'])->name('permissions.destroy');
 
+
+
+        // Role
+        Route::get('/role/index', [RoleController::class, 'index'])->name('role.index');
+        Route::get('/role/create', [RoleController::class, 'create'])->name('role.create');
+        Route::post('/role', [RoleController::class, 'store'])->name('role.store');
+
+        Route::get('/role/{id}/edit', [RoleController::class, 'edit'])->name('role.edit');
+        Route::post('/role/{id}', [RoleController::class, 'update'])->name('role.update');
+        Route::delete('/role/{id}', [RoleController::class, 'destroy'])->name('role.destroy');
     });
 
 

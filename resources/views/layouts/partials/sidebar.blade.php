@@ -92,7 +92,7 @@
                         </a>
                         <div class="collapse" id="collapsePermissions" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="#">Roles</a>
+                                <a class="nav-link" href="{{url('admin/role/create')}}">Roles</a>
                                 <a class="nav-link" href="{{url('admin/permissions/create')}}">Permissions</a>
                                 <!-- <a class="nav-link" href="#">Articles</a> -->
                                 <a class="nav-link" href="#">User Section</a>

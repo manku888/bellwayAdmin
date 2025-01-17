@@ -5,9 +5,6 @@
 
 
 
-
-
-
 <div class="flex justify-between">
 
     <a href="{{route('permissions.create')}}"  class="bg-slate-700 text-sm rounded-md text-black px-2 py-1">Create</a>
