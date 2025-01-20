@@ -5,10 +5,23 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Hiring;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-
-class HiringController extends Controller
+class HiringController extends Controller implements HasMiddleware
 {
+
+    public static function middleware() : array
+    {
+
+        return[
+           new Middleware('permission:view hiring', only: ['index']),
+           new Middleware('permission:create hiring', only: ['create']),
+           new Middleware('permission:delete hiring', only:['destroy'] ),
+       ];
+    }
+
+
     // get data and show in dashboard
     public function index(){
      $hirings = Hiring::all();

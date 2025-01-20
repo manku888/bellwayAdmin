@@ -9,7 +9,7 @@
 
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <link href="{{asset('admin/css/styles.css')}}" rel="stylesheet" />
-        <!-- <link rel="stylesheet" href="{{ mix('css/app.css') }}"> -->
+        <!-- <link rel="stylesheet" href="{{ asset('css/app.css') }}"> -->
         <!-- @vite('resources/css/app.css') -->
 
 

@@ -6,8 +6,25 @@ use GuzzleHttp\Promise\Create;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Permission;
-class PermissionController extends Controller
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+class PermissionController extends Controller implements HasMiddleware
 {
+
+    public static function middleware() : array
+    {
+
+        return[
+           new Middleware('permission:view permission', only: ['index']),
+           new Middleware('permission:create permission', only: ['create']),
+           new Middleware('permission:edit permission', only: ['edit']),
+           new Middleware('permission:delete permission', only:['destroy'] ),
+       ];
+    }
+
+
+
+
     // this method is show permissions
     public function index(){
 
@@ -35,7 +52,7 @@ class PermissionController extends Controller
             ]
             );
             if ($validate->passes()) {
-                Permission::create(['name'=>$request->name]);
+                Permission::create(['name'=>$request->name,'guard_name' => 'admin', ]);
                 return redirect()->route('permissions.index')->with('success','Permission Added Successfully');
             }
             else{

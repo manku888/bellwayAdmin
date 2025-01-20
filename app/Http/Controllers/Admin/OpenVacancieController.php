@@ -5,12 +5,20 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\OpenVacancy;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class OpenVacancieController extends Controller
+class OpenVacancieController extends Controller implements HasMiddleware
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public static function middleware() : array
+    {
+
+        return[
+           new Middleware('permission:view openvacancie', only: ['index']),
+        //    new Middleware('permission:create openvacancie', only: ['create']),
+           new Middleware('permission:delete openvacancie', only:['destroy'] ),
+       ];
+    }
     public function index()
     {
        $openvacancies =OpenVacancy::all();

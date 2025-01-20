@@ -4,9 +4,23 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Contact;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class ContactController extends Controller
+
+class ContactController extends Controller implements HasMiddleware
 {
+         public static function middleware() : array
+         {
+
+             return[
+                new Middleware('permission:view contact', only: ['index']),
+                new Middleware('permission:delete contact', only:['destroy'] ),
+            ];
+         }
+
+
+
     public function index()
     {
 

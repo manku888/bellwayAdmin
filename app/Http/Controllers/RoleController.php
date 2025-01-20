@@ -9,13 +9,25 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 
-class RoleController extends Controller
+class RoleController extends Controller implements HasMiddleware
 {
+
+
+    public static function middleware() : array
+    {
+
+        return[
+           new Middleware('permission:view role', only: ['index']),
+           new Middleware('permission:create role', only: ['create']),
+           new Middleware('permission:edit role', only: ['edit']),
+           new Middleware('permission:delete role', only:['destroy'] ),
+       ];
+    }
 
     //this method will show roles page
     public function index(){
     //  dd('index');
-    $roles = Role::orderBy('name','ASC')->paginate(10);
+    $roles = Role::orderBy('name','ASC')->paginate(20);
      return view('role.list',['roles' => $roles]);
     }
     // this method will show create role page
@@ -39,7 +51,7 @@ class RoleController extends Controller
     if ($validate->passes()) {
 
         // dd($request);
-          $role = Role::create(['name'=>$request->name]);
+          $role = Role::create(['name'=>$request->name,'guard_name' => 'admin', ]);
 
         if (!empty($request->permission)) {
           foreach ($request->permission as  $name) {
@@ -96,6 +108,7 @@ class RoleController extends Controller
         //   $role = Role::create(['name'=>$request->name]);
 
         $role->name = $request->name;
+
         $role->save();
 
         if (!empty($request->permission)) {

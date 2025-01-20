@@ -21,6 +21,7 @@
                                 </div>
                             </div>
                             <!--Call Request  -->
+
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-warning text-white mb-4" style="text-align: center;">
                                 <i class="fa-solid fa-phone fa-2xl" style="color: #ffffff; display:block; margin: 20px auto -4px auto;"></i>
@@ -33,6 +34,7 @@
                                     </div> -->
                                 </div>
                             </div>
+
                             <!-- Trainee -->
                             <div class="col-xl-3 col-md-6" style="text-align: center;">
                                 <div class="card bg-success text-white mb-4" >

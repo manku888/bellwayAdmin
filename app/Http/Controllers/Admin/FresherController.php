@@ -5,12 +5,23 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Fresher;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class FresherController extends Controller
+class FresherController extends Controller implements HasMiddleware
 {
-    /**
-     * Display a listing of the resource.
-     */
+
+    public static function middleware() : array
+    {
+
+        return[
+           new Middleware('permission:view freshers', only: ['index']),
+           new Middleware('permission:delete freshers', only:['destroy'] ),
+       ];
+    }
+
+
+
     public function index()
     {
        $fresherdatas = Fresher::all();

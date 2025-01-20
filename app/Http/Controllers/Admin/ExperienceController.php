@@ -5,12 +5,22 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Experience;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class ExperienceController extends Controller
+class ExperienceController extends Controller implements HasMiddleware
 {
-    /**
-     * Display a listing of the resource.
-     */
+
+    public static function middleware() : array
+    {
+
+        return[
+           new Middleware('permission:view experiences', only: ['index']),
+           new Middleware('permission:delete experiences', only:['destroy'] ),
+       ];
+    }
+
+
     public function index()
     {
         $experiences=Experience::all();

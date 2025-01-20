@@ -4,8 +4,21 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\CallRequest;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class CallRequestController extends Controller{
+class CallRequestController extends Controller implements HasMiddleware
+{
+
+
+    public static function middleware() : array
+    {
+
+        return[
+           new Middleware('permission:view callrequests', only: ['index']),
+           new Middleware('permission:delete callrequests', only:['destroy'] ),
+       ];
+    }
 
     public function index(){
 

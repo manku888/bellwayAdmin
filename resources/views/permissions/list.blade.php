@@ -7,7 +7,12 @@
 
 <div class="flex justify-between">
 
-    <a href="{{route('permissions.create')}}"  class="bg-slate-700 text-sm rounded-md text-black px-2 py-1">Create</a>
+<div class="d-flex justify-content-end mb-3">
+    <a href="{{ route('permissions.create') }}" class="btn btn-secondary btn-sm ">
+     Create
+    </a>
+</div>
+
 
 
     <table class="custom-table" style="margin-bottom:2px;">
@@ -20,23 +25,36 @@
             </tr>
         </thead>
         <tbody>
+        @php
+            // Calculate the starting serial number
+            $serial = ($permissions->currentPage() - 1) * $permissions->perPage() + 1;
+        @endphp
+
            @foreach ($permissions as $permission )
              <tr>
-             <td>{{ $loop->iteration }}</td>
+                <td>{{$serial++}}</td>
+             <!-- <td>{{ $loop->iteration }}</td> -->
              <td>{{$permission->name}}</td>
              <td>{{( $permission->created_at)->format('d M, Y') }}</td>
 
              <td>
 
-                 <a href="{{route('permissions.edit',$permission->id)}}" class="text-primary " >
-                    <button>edit</button></a>
+                 <a href="{{route('permissions.edit',$permission->id)}}"  >
+                    <button class="btn  btn-sm">
+                    <i class="fa-solid fa-pen"></i>
+                    <!-- <i class="ri-pencil-line"></i> -->
+                    </button>
+
+                </a>
                  <!-- <a href="{{route('permissions.destroy',$permission->id)}}" Method="delete" class="text-danger " >delete</a> -->
 
                  <form action="{{route('permissions.destroy',$permission->id)}}" method="post" >
                  @csrf
                  @method('delete')
 
-                 <button class="text-danger ">delete</button>
+                 <button type="submit" class="btn  btn-sm" onclick="return confirm('Are you sure you want to delete this hiring data?')">
+                            <i class="fa-solid fa-trash " style="color: red;"></i>
+                        </button>
                 </form>
 
              </td>
@@ -48,8 +66,10 @@
            @endforeach
 
         </tbody>
-        <!-- {{$permissions->links()}} -->
     </table>
+         <div class="d-flex justify-content-end ">
+            {{$permissions->links()}}
+         </div>
 </div>
 
 
