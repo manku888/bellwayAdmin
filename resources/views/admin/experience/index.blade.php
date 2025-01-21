@@ -60,6 +60,7 @@
                         </button>
 
                         <!-- delete -->
+                        @can('delete experiences')
                         <form action="{{ url('admin/experience/delete', $experience->id) }}" method="POST">
                         @csrf
                         @method('DELETE')
@@ -67,11 +68,15 @@
                             <i class="fa-solid fa-trash " style="color: red; margin-top: 15px;"></i>
                         </button>
                     </form>
+                    @endcan
                     </td>
                 </tr>
             @endforeach
         </tbody>
     </table>
+    <div class="d-flex justify-content-end mt-3 ">
+        {{$experiences->links()}}
+    </div>
 </div>
 
 <!-- Modal for Viewing Experience Details -->

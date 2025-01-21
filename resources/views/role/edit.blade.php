@@ -3,7 +3,10 @@
 @section('content')
 
 <h3>Roles / edit</h3>
-<a href="{{ route('role.index') }}" >list of roles</a>
+<div class="d-flex justify-content-end me-3">
+
+    <a href="{{ route('role.index') }}" class="btn btn-secondary btn-sm">list of roles</a>
+</div>
 
 <!-- create permistions -->
 <div class="py-12">
@@ -14,10 +17,10 @@
                  <form action="{{route('role.update', $roles->id)}}" method="post">
                   @csrf
                     <div>
-                        <label for="" class="text-lg font-medium">Name</label>
+                        <label for="" class="text-lg font-medium ms-1">Name</label>
                       <div class="my-3">
                            <input value="{{ old('name',$roles->name) }}" name="name" placeholder="Enter Name" type="text"
-                           class="border-gray-300 shadow-sm w-1/2 rounded-lg">
+                           class="border-gray-300 shadow-sm w-1/2 rounded-lg ms-1">
                            @error('name')
                            <p class="text-red-400 font-medium">{{$message}}</p>
                            @enderror
@@ -38,7 +41,7 @@
                             @endif
                       </div>
 
-                      <button class="bg-slate-700 text-sm rounded-md text-black px-2 py-1">Update</button>
+                      <button class="btn btn-primary btn-sm  rounded-md text-black px-2 py-1 ms-1">Update</button>
 
                     </div>
                  </form>

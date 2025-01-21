@@ -20,7 +20,7 @@ class UserController extends Controller implements HasMiddleware
            new Middleware('permission:view user', only: ['index']),
         //    new Middleware('permission:create user', only: ['create']),
            new Middleware('permission:edit user', only: ['edit']),
-        //    new Middleware('permission:delete user', only:['destroy'] ),
+            new Middleware('permission:delete user', only:['destroy'] ),
        ];
     }
     // fatch all admins in user controller

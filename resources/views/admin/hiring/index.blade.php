@@ -30,6 +30,7 @@
                     </a> -->
 
                     <!-- Delete Button -->
+                     @can('delete hiring')
                     <form action="{{ url('admin/hiring/delete', $hiring->id) }}" method="POST" style="display: inline-block;">
                         @csrf
                         @method('DELETE')
@@ -37,6 +38,7 @@
                             <i class="fa-solid fa-trash " style="color: red;"></i>
                         </button>
                     </form>
+                    @endcan
                 </td>
 
             </tr>
@@ -44,6 +46,9 @@
 
         </tbody>
     </table>
+    <div class="d-flex justify-content-end mt-3 ">
+        {{$hirings->links()}}
+    </div>
 </div>
 
 @endsection

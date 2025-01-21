@@ -8,6 +8,7 @@
                         </ol>
                         <div class="row">
                             <!-- contact -->
+                             @can('view contact')
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-primary text-white mb-4" style="text-align: center;">
                                     <!-- <img src="/admin/images/admin_logo/contact.png" alt="contact logo is not found " style="height: 70px; width: 70px; display:block; margin-left: 140px;"> -->
@@ -20,8 +21,9 @@
                                     </div> -->
                                 </div>
                             </div>
+                            @endcan
                             <!--Call Request  -->
-
+                             @can('view callrequests')
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-warning text-white mb-4" style="text-align: center;">
                                 <i class="fa-solid fa-phone fa-2xl" style="color: #ffffff; display:block; margin: 20px auto -4px auto;"></i>
@@ -34,8 +36,10 @@
                                     </div> -->
                                 </div>
                             </div>
+                            @endcan
 
-                            <!-- Trainee -->
+                            <!-- freshers -->
+                            @can('view freshers')
                             <div class="col-xl-3 col-md-6" style="text-align: center;">
                                 <div class="card bg-success text-white mb-4" >
                                     <img src="/admin/images/admin_logo/fresher2.png" alt="fresher logo is not found " style="height: 45px; width: 45px; display:block; margin: 20px auto -18px auto; ">
@@ -48,7 +52,10 @@
                                     </div> -->
                                 </div>
                             </div>
+                            @endcan
+
                             <!-- Experience -->
+                             @can('view experiences')
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-danger text-white mb-4" style="text-align: center; " >
                                 <i class="fa-solid fa-trophy fa-2xl" style="color: #ffffff; display:block; margin: 20px auto -4px auto;"></i>
@@ -60,7 +67,10 @@
                                     </div> -->
                                 </div>
                             </div>
+                            @endcan
+
                             <!--Open-Vacancy -->
+                            @can('view openvacancie')
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-secondary text-white mb-4" style="text-align: center;">
                                 <i class="fas fa-briefcase fa-solid fa-2xl" style="color: #ffffff; display:block; margin: 20px auto -4px auto;"></i>
@@ -72,5 +82,6 @@
                                     </div> -->
                                 </div>
                             </div>
+                            @endcan
                         </div>
 @endsection

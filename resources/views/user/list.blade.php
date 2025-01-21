@@ -2,7 +2,7 @@
 
 @section('content')
 
-<h3>Roles</h3>
+<h3>Users</h3>
 
 
 
@@ -59,6 +59,10 @@
         </tbody>
 
     </table>
+
+    <div>
+        {{$users->links()}}
+    </div>
 
 </div>
 

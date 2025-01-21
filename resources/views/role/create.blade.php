@@ -2,8 +2,10 @@
 
 @section('content')
 
-<h3>Roles / create</h3>
-<a href="{{ route('role.index') }}" >list of roles</a>
+<h3>Roles/ Create</h3>
+<div class="d-flex justify-content-end">
+    <a href="{{ route('role.index') }}" class="btn btn-secondary btn-sm" >list of roles</a>
+</div>
 
 <!-- create permistions -->
 <div class="py-12">
@@ -26,21 +28,22 @@
                        <div class="grid grid-cols-2 mb-3">
 
                             @if ($permissions ->isNotEmpty())
+                            <div >
                                     @foreach ($permissions as $permission )
-                                        <div class="mt-3 ">
+                                        <div class="mt-3 me-3 ">
                                             <input type="checkbox" id="permission-{{$permission->id}}" class="rounded" name="permission[]"
                                             value="{{$permission->name}}">
                                             <label for="permission-{{$permission->id}}">{{$permission->name}}</label>
                                         </div>
                                     @endforeach
-
+                            </div>
                             @endif
                       </div>
 
 
 
 
-                      <button class="bg-slate-700 text-sm rounded-md text-black px-2 py-1">Submit</button>
+                      <button class="btn btn-primary btn-sm">Submit</button>
 
                     </div>
                  </form>

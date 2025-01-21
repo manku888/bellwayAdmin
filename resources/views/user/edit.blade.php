@@ -3,7 +3,9 @@
 @section('content')
 
 <h3>Users / edit</h3>
-<a href="{{ route('user.index') }}" >list of users</a>
+<div class="d-flex justify-content-end">
+    <a href="{{ route('user.index') }}" class="btn btn-secondary btn-sm " >list of users</a>
+</div>
 
 <!-- create permistions -->
 <div class="py-12">
@@ -51,7 +53,7 @@
                             @endif
                       </div>
 
-                      <button class="bg-slate-700 text-sm rounded-md text-black px-2 py-1">Update</button>
+                      <button class="btn btn-primary text-sm rounded-md text-black px-2 py-1 ms-1 mb-1">Update</button>
 
                     </div>
                  </form>

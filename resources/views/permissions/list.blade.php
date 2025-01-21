@@ -5,7 +5,7 @@
 
 
 
-<div class="flex justify-between">
+<div class="flex justify-between ">
 
 <div class="d-flex justify-content-end mb-3">
     <a href="{{ route('permissions.create') }}" class="btn btn-secondary btn-sm ">
@@ -67,7 +67,7 @@
 
         </tbody>
     </table>
-         <div class="d-flex justify-content-end ">
+         <div class="d-flex justify-content-end mt-3 ">
             {{$permissions->links()}}
          </div>
 </div>

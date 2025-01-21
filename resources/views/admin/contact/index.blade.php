@@ -51,6 +51,7 @@
                         </button>
 
                           <!-- Delete Button -->
+                           @can('delete contact')
                     <form action="{{ url('admin/contacts/delete', $contact->id) }}" method="POST" style="display: inline-block;">
                         @csrf
                         @method('DELETE')
@@ -58,11 +59,15 @@
                             <i class="fa-solid fa-trash " style="color: red;"></i>
                         </button>
                     </form>
+                    @endcan
                     </td>
                 </tr>
             @endforeach
         </tbody>
     </table>
+    <div class="d-flex justify-content-end mt-3 ">
+        {{$contacts->links()}}
+    </div>
 </div>
 
 <!-- Bootstrap Modal -->

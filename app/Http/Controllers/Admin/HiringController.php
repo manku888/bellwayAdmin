@@ -24,7 +24,7 @@ class HiringController extends Controller implements HasMiddleware
 
     // get data and show in dashboard
     public function index(){
-     $hirings = Hiring::all();
+     $hirings = Hiring::paginate(10);
     // dd('asdfghjkert');
     foreach ($hirings as $hiring) {
         // Assuming 'created_at' is the datetime column in the 'contacts' table

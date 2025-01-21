@@ -27,7 +27,7 @@ class RoleController extends Controller implements HasMiddleware
     //this method will show roles page
     public function index(){
     //  dd('index');
-    $roles = Role::orderBy('name','ASC')->paginate(20);
+    $roles = Role::orderBy('name','ASC')->paginate(10);
      return view('role.list',['roles' => $roles]);
     }
     // this method will show create role page

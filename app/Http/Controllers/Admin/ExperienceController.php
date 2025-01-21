@@ -23,7 +23,7 @@ class ExperienceController extends Controller implements HasMiddleware
 
     public function index()
     {
-        $experiences=Experience::all();
+        $experiences=Experience::paginate(10);
         // dd($experiences);
         foreach ($experiences as $experience) {
             // Assuming 'created_at' is the datetime column in the 'contacts' table

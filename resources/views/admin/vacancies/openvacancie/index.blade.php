@@ -51,6 +51,7 @@
                         </button>
 
                         <!-- delete -->
+                         @can('delete openvacancie')
                         <form action="{{ url('admin/openvacancie/delete', $openvacancy->id) }}" method="POST" style="display: inline-block;">
                         @csrf
                         @method('DELETE')
@@ -58,10 +59,14 @@
                             <i class="fa-solid fa-trash " style="color: red; margin-top:15px;"></i>
                         </button>
                     </form>
+                    @endcan
                     </td>
                 </tr>
             @endforeach
         </tbody>
+        <div class="d-flex justify-content-end mt-3 ">
+            {{$openvacancies->links()}}
+        </div>
     </table>
 </div>
 

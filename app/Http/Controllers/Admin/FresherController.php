@@ -24,7 +24,7 @@ class FresherController extends Controller implements HasMiddleware
 
     public function index()
     {
-       $fresherdatas = Fresher::all();
+       $fresherdatas = Fresher::paginate(10);
 
        foreach ($fresherdatas as $fresherdata) {
         // Assuming 'created_at' is the datetime column in the 'contacts' table

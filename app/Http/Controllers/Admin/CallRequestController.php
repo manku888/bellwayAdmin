@@ -22,7 +22,7 @@ class CallRequestController extends Controller implements HasMiddleware
 
     public function index(){
 
-          $calldatas= CallRequest::all();
+          $calldatas= CallRequest::paginate(10);
         //   dd($calldatas);
 
         return view('admin.call.index ',compact('calldatas'));

@@ -47,6 +47,7 @@
                         </button>
 
                         <!-- delete -->
+                        @can('delete callrequest')
                         <form action="{{ url('admin/call/delete', $calldata->id) }}" method="POST" style="display: inline-block;">
                         @csrf
                         @method('DELETE')
@@ -54,11 +55,15 @@
                             <i class="fa-solid fa-trash " style="color: red;"></i>
                         </button>
                     </form>
+                    @endcan
                     </td>
                 </tr>
             @endforeach
         </tbody>
     </table>
+    <div class="d-flex justify-content-end mt-3 ">
+        {{$calldatas->links()}}
+    </div>
 </div>
 
 <!-- Modal for Viewing Call Request Details -->

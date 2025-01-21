@@ -10,15 +10,15 @@
                  <form action="{{route('permissions.update' ,$permission->id)}}" method="post">
                   @csrf
                     <div>
-                        <label for="" class="text-lg font-medium">Name</label>
+                        <label for="" class="text-lg font-medium ms-1">Name</label>
                       <div class="my-3">
                            <input value="{{ old('name',$permission->name) }}" name="name" placeholder="Enter Name" type="text"
-                           class="border-gray-300 shadow-sm w-1/2 rounded-lg">
+                           class="border-gray-300 shadow-sm w-1/2 rounded-lg ms-1">
                            @error('name')
                            <p class="text-red-400 font-medium">{{$message}}</p>
                            @enderror
                       </div>
-                      <button class="bg-slate-700 hover:bg-slate-600 text-sm rounded-md text-white px-5 py-3">Update</button>
+                      <button class="btn btn-primary btn-sm text-sm rounded-md text-white px-2 py-1 ms-1">Update</button>
                     </div>
                  </form>
                 </div>

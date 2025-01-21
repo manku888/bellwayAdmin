@@ -24,7 +24,7 @@ class ContactController extends Controller implements HasMiddleware
     public function index()
     {
 
-        $contacts = Contact::all();
+        $contacts = Contact::paginate(10);
         // Iterate through each contact and extract date and time separately
        foreach ($contacts as $contact) {
         // Assuming 'created_at' is the datetime column in the 'contacts' table

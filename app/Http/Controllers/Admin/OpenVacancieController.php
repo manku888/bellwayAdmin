@@ -21,7 +21,7 @@ class OpenVacancieController extends Controller implements HasMiddleware
     }
     public function index()
     {
-       $openvacancies =OpenVacancy::all();
+       $openvacancies =OpenVacancy::paginate(10);
        foreach ($openvacancies as $openvacancie) {
         // Assuming 'created_at' is the datetime column in the 'contacts' table
           $openvacancie->date = $openvacancie->created_at->format('d-m-Y');  // Format the date
