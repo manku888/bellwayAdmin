@@ -3,7 +3,10 @@
 @section('content')
 
 <h3>users / create</h3>
-<a href="{{ route('user.index') }}" >list of users</a>
+<div class="d-flex justify-content-end mb-3">
+
+    <a href="{{ route('user.index') }}"  class="btn btn-secondary btn-sm">list of users</a>
+</div>
 
 <!-- create permistions -->
 <div class="py-12">
@@ -36,14 +39,24 @@
 
 
                        <!-- password -->
+                       <div >
                        <label for="" class="text-lg font-medium">Password</label>
-                      <div class="my-3">
+                       <div class="my-3  ">
                            <input value="{{ old('password') }}" name="password" placeholder="Enter Password" type="text"
                            class="border-gray-300 shadow-sm w-1/2 rounded-lg">
+
+                           <!-- <button type="button" class="btn btn-light btn-sm position-absolute top-50 end-0 translate-middle-y me-1" id="togglePassword" style="border: none;">
+                                 <i class="fa fa-eye" id="showIcon" style="display: none;"></i>
+                                 <i class="fa fa-eye-slash" id="hideIcon"></i>
+                            </button> -->
+
                            @error('password')
                            <p class="text-red-400 font-medium">{{$message}}</p>
                            @enderror
+
                       </div>
+                      </div>
+
 
                        <!--  confirm_password -->
                        <label for="" class="text-lg font-medium">Confirm Password</label>
@@ -55,14 +68,17 @@
                            @enderror
                       </div>
 
-                       <div class="grid grid-cols-2 mb-3">
+                      <div class="d-flex flex-wrap">
 
-                            @if ($permissions ->isNotEmpty())
-                                    @foreach ($permissions as $permission )
-                                        <div class="mt-3 ">
-                                            <input type="checkbox" id="permission-{{$permission->id}}" class="rounded" name="permission[]"
-                                            value="{{$permission->name}}">
-                                            <label for="permission-{{$permission->id}}">{{$permission->name}}</label>
+                            @if ($roles ->isNotEmpty())
+                                    @foreach ($roles as $role )
+                                        <div class="mt-3 ms-2 me-4 mb-3 ">
+                                            <!-- checked or not -->
+
+
+                                            <input  type="checkbox" id="role-{{$role->id}}" class="rounded" name="role[]"
+                                            value="{{$role->name}}">
+                                            <label for="role-{{$role->id}}">{{$role->name}}</label>
                                         </div>
                                     @endforeach
 
@@ -71,8 +87,7 @@
 
 
 
-
-                      <button class="bg-slate-700 text-sm rounded-md text-black px-2 py-1">Submit</button>
+                      <button class="btn btn-primary text-sm rounded-md text-black px-2 py-1 ms-1 mb-1">Create</button>
 
                     </div>
                  </form>

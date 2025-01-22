@@ -34,9 +34,9 @@
                             @endcan
                             <div class="collapse " id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                                     @can('view contact')
-                                    <a class="nav-link collapsed text-black " href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
 
+                                    <a class="nav-link collapsed text-black " href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
+                                    @can('contact')
                                   <div style="font-size: 14px; transform: 0.3;" onmouseover="this.style.color='red'" onmouseout="this.style.color='black'"> Contact </div>
 
                                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
@@ -44,8 +44,9 @@
                                     @endcan
                                     <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                                         <nav class="sb-sidenav-menu-nested nav">
+                                        @can('view contact')
                                             <a class="nav-link text-black" style="font-size:13px;" href="{{url('admin/contacts')}}">Contact Sales</a>
-
+                                        @endcan
                                             @can('view callrequests')
                                             <a class="nav-link text-black" style="font-size:13px;" href="{{url('admin/call')}}">Call Request</a>
                                             @endcan
@@ -53,7 +54,7 @@
                                         </nav>
                                     </div>
                                     <!-- <a class="nav-link" href="{{url('admin/contact')}}">Open Vacancies</a> -->
-                                     @can('view openvacancie')
+                                     @can('vacancie')
                                     <a class="nav-link collapsed text-black" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
                                   <div style="font-size: 14px; transform: 0.3;" onmouseover="this.style.color='red'" onmouseout="this.style.color='black'"> Vacancies </div>
                                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
@@ -61,8 +62,9 @@
                                     @endcan
                                     <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                                         <nav class="sb-sidenav-menu-nested nav">
+                                        @can('view openvacancie')
                                             <a class="nav-link text-black" style="font-size:13px;" href="{{url('admin/openvacancie')}}">Open Vacancy</a>
-
+                                            @endcan
                                             @can('view freshers')
                                             <a class="nav-link text-black" style="font-size:13px;" href="{{url('admin/fresher')}}">Fresher</a>
                                             @endcan
@@ -126,6 +128,7 @@
                             @endcan
                             <!-- Give Permissions Section -->
                             @can('view user-management')
+
                                 <a class="nav-link collapsed text-black"  href="#" data-bs-toggle="collapse" data-bs-target="#collapsePermissions" aria-expanded="false" aria-controls="collapsePermissions">
                                     <!-- <div class="sb-nav-link-icon"><i class="fas fa-user-shield"></i></div> -->
                                 <img src="/admin/images/admin_logo/user.png" style="height:6%; width:10%; margin:7px;" alt="query logo">
@@ -133,6 +136,7 @@
                                       <div style="font-size: 15px; transform: 0.3;" onmouseover="this.style.color='red'" onmouseout="this.style.color='black'">User Management</div>
                                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                                 </a>
+
                             @endcan
                         <div class="collapse" id="collapsePermissions" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">

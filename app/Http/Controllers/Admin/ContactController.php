@@ -14,6 +14,7 @@ class ContactController extends Controller implements HasMiddleware
          {
 
              return[
+                // new Middleware('permission:Queries',['index']),
                 new Middleware('permission:view contact', only: ['index']),
                 new Middleware('permission:delete contact', only:['destroy'] ),
             ];

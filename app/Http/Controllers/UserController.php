@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Hash;
 
 use function Pest\Laravel\get;
 
@@ -18,7 +19,7 @@ class UserController extends Controller implements HasMiddleware
 
         return[
            new Middleware('permission:view user', only: ['index']),
-        //    new Middleware('permission:create user', only: ['create']),
+           new Middleware('permission:create user', only: ['create']),
            new Middleware('permission:edit user', only: ['edit']),
             new Middleware('permission:delete user', only:['destroy'] ),
        ];
@@ -35,7 +36,10 @@ class UserController extends Controller implements HasMiddleware
      */
     public function create()
     {
-
+        $roles = Role::orderBy('name','ASC')->get();
+        return view('user.create',[
+            'roles'=> $roles
+        ]);
     }
 
     /**
@@ -43,7 +47,32 @@ class UserController extends Controller implements HasMiddleware
      */
     public function store(Request $request)
     {
-        //
+
+
+        $validator = Validator::make($request->all(),[
+           'name'=> 'required|min:3',
+           'email'=> 'required|email|unique:admins,email',
+           'password'=>'required|min:8|same:confirm_password',
+           'confirm_password'=>'required'
+        ]);
+
+        if ($validator->fails()) {
+           return redirect()->route('user.create')->withInput()->withErrors($validator);
+        }
+
+        $users = new Admin();
+        $users->name = $request->name;
+        $users->email = $request->email;
+        $users->password = Hash::make($request->password);
+
+
+        $users->save();
+
+        $users->syncRoles($request->role);
+
+        return redirect()->route('user.index')->with('success','user created successfully');
+
+
     }
 
     /**

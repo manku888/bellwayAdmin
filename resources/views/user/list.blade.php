@@ -7,8 +7,11 @@
 
 
 <div class="flex justify-between">
-
-    <!-- <a href="#"  class="bg-slate-700 text-sm rounded-md text-black px-2 py-1">Create</a> -->
+     @can('create user')
+    <div class="d-flex justify-content-end mb-3">
+        <a href="{{route('user.create')}}"  class="btn btn-secondary btn-sm">Create</a>
+    </div>
+    @endcan
 
 
 
