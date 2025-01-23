@@ -81,11 +81,43 @@
                             <a class="nav-link" href="charts.html">
                                 <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                                 Charts
-                            </a>
-                            <a class="nav-link" href="tables.html">
-                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Tables
                             </a> -->
+                            <!-- <a class="nav-link text-black" href="leads.html">
+                            <img src="/admin/images/admin_logo/lead.png" style="height:7%; width:11%; margin:7px;" alt="query logo">
+                              <div style="font-size: 14px; transform: 0.3;" onmouseover="this.style.color='red'" onmouseout="this.style.color='black'">Leads</div>
+                            </a> -->
+
+                            <!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
+                             <!-- "manage leads" permission ke liye -->
+    <a class="nav-link collapsed text-black" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLead" aria-expanded="false" aria-controls="collapseLead">
+        <img src="/admin/images/admin_logo/lead.png" style="height:7%; width:11%; margin:7px;" alt="lead logo">
+
+        <div style="font-size: 15px; transform: 0.3;" onmouseover="this.style.color='red'" onmouseout="this.style.color='black'">Leads</div>
+        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+    </a>
+
+
+<div class="collapse" id="collapseLead" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+    <nav class="sb-sidenav-menu-nested nav">
+        <!-- "create lead" permission ke liye -->
+            <a class="nav-link text-black" style="font-size:14px;" href="{{ url('admin/leads/create') }}">Create Lead</a>
+
+
+         <!-- "view leads" permission ke liye -->
+            <a class="nav-link text-black" style="font-size:14px;" href="{{ url('admin/leads') }}">View All Leads</a>
+
+
+         <!-- "import leads" permission ke liye -->
+            <!-- <a class="nav-link text-black" style="font-size:14px;" href="{{ url('admin/leads/import') }}">Import Leads</a> -->
+
+
+        <!-- "export leads" permission ke liye -->
+            <!-- <a class="nav-link text-black" style="font-size:14px;" href="{{ url('admin/leads/export') }}">Export Leads</a> -->
+
+    </nav>
+</div>
+
+                            <!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
 
                             <!-- hiring -->
                              <!-- ishki help se hum sidebar mai options ko show or hide kr skte hai -->

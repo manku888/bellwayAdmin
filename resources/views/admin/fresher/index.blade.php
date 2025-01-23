@@ -48,7 +48,7 @@
                         </button>
 
                         <!-- delete -->
-                         @can('delete fresher')
+                         @can('delete freshers')
                         <form action="{{ url('admin/fresher/delete', $fresherdata->id) }}" method="POST" style="display: inline-block;">
                         @csrf
                         @method('DELETE')
