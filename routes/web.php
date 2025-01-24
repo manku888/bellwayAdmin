@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ExperienceController;
 use App\Http\Controllers\Admin\FresherController;
 use App\Http\Controllers\Admin\HiringController;
 use App\Http\Controllers\Admin\OpenVacancieController;
+use App\Http\Controllers\LeadController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
@@ -100,6 +101,17 @@ Route::middleware('auth')->group(function () {
         Route::get('/user/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
         Route::post('/user/{id}', [UserController::class, 'update'])->name('user.update');
         Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+
+
+        //leads
+        Route::get('/lead/index', [LeadController::class, 'index'])->name('lead.index');
+
+        Route::get('/lead/create', action: [LeadController::class, 'create'])->name('lead.create');
+        Route::post('/lead', [LeadController::class, 'store'])->name('lead.store');
+
+        Route::get('/lead/{id}/edit', [LeadController::class, 'edit'])->name('lead.edit');
+        Route::get('/lead/{id}', [LeadController::class, 'update'])->name('lead.update');
+        Route::delete('/lead/{id}', [LeadController::class, 'destroy'])->name('lead.destroy');
 
 
 

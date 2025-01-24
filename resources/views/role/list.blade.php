@@ -40,7 +40,7 @@
                     <button class="btn  btn-sm">
                     <i class="fa-solid fa-pen"></i>
                     </button>
-
+                
                     <!-- delete -->
                  <form action="{{route('role.destroy',$role->id)}}" method="post" >
                  @csrf

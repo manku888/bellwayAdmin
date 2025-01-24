@@ -100,11 +100,11 @@
 <div class="collapse" id="collapseLead" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
     <nav class="sb-sidenav-menu-nested nav">
         <!-- "create lead" permission ke liye -->
-            <a class="nav-link text-black" style="font-size:14px;" href="{{ url('admin/leads/create') }}">Create Lead</a>
+            <!-- <a class="nav-link text-black" style="font-size:14px;" href="{{ url('admin/leads/create') }}">Create Lead</a> -->
 
 
          <!-- "view leads" permission ke liye -->
-            <a class="nav-link text-black" style="font-size:14px;" href="{{ url('admin/leads') }}">View All Leads</a>
+            <a class="nav-link text-black" style="font-size:14px;" href="{{ url('admin/lead/index') }}">Leads</a>
 
 
          <!-- "import leads" permission ke liye -->
