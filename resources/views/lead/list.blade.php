@@ -25,7 +25,7 @@
 
         <!-- Table -->
 
-            <table class="custom-table" style=" margin-bottom:2px;">
+            <table class="custom-table " style=" margin-bottom:2px;">
                 <thead>
                     <tr class="text-center">
                         <th>Assignee</th>
@@ -44,7 +44,7 @@
                         <th>Description</th>
                         <th>Follow Up</th>
                         <th>Action</th>
-                        <th>Histrory</th>
+                        <th>History</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -56,7 +56,7 @@
                             </span>
                         </td>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $lead->created_at}}</td>
+                        <td>{{date('d-m-Y g:i A',strtotime( $lead->created_at))}}</td>
                         <td>
                             <span class="badge rounded-pill"
                                 style="background-color: #0A53A8; color: white;">{{ $lead->source }}
@@ -68,24 +68,37 @@
                         <td>{{ $lead->phone_number }}</td>
                         <td>{{ $lead->city }}</td>
                         <td>{{ $lead->email }}</td>
-                        <td>{{ $lead->last_follow_up_date }}</td>
+                        <td>{{date('d-m-Y g:i A', strtotime( $lead->created_at))}}</td>
                         <td>
                             <span class="badge rounded-pill" style="background-color: #CE1B84; color: white;">
                                 {{ $lead->status }}
                             </span>
                         </td>
                         <td class="text-center">
-                            <span>{{ $lead->follow_up_date }}</span>
+                        <span>
+                             {{ $lead->follow_up_date ? \Carbon\Carbon::parse($lead->follow_up_date)->setTimezone('Asia/Kolkata')->format('d-m-Y g:i A') : '' }}
+                        </span>
+
+
                         </td>
                         <td>{{ $lead->description }}</td>
                         <td>
-                            @if ($lead->last_follow_up_date > $lead->follow_up_date)
-                                <span class="badge rounded-pill" style="background-color: blue; color: white;">In Completed</span>
+                            <!-- @if ($lead->created_at > $lead->follow_up_date)
+                                <span class="badge rounded-pill" style="background-color: blue; color: white;">pending</span>
                             @elseif ($lead->last_follow_up_date == $lead->follow_up_date)
                                 <span class="badge rounded-pill" style="background-color: green; color: white;">Done</span>
                             @else
-                                <span class="badge rounded-pill" style="background-color: red; color: white;">Pending</span>
+                                <span class="badge rounded-pill" style="background-color: red; color: white;">up-comming</span>
+                            @endif -->
+
+
+                            @if ($lead->follow_up_date > now())
+                            <span class="badge rounded-pill" style="background-color: red; color: white;">up-comming</span>
+                            @else
+                            <span class="badge rounded-pill" style="background-color: blue; color: white;">pending</span>
                             @endif
+
+
                         </td>
 
 
@@ -94,20 +107,16 @@
                                <div class="btn-group" role="group">
 
                                 <!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>edit>>>>>>>>>>>>>>>>>>>>>>>>>> -->
-
-
-
-                                <a href="{{route('lead.edit',$lead->id)}}" class="text-primary " >
-                                    <button class="btn  btn-sm">
-                                    <i class="fa-solid fa-pen"></i>
-                                   </button>
+                                <a href="{{ route('lead.edit', $lead->id) }}" class="btn btn-primary btn-sm">
+                                    <i class="fa-solid fa-pen "></i>
                                 </a>
                                 <!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>edit>>>>>>>>>>>>>>>>>>>>>>>>>> -->
+
                                 <!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>eye>>>>>>>>>>>>>>>>>>>>>>>>>> -->
-
-
-                                <a class="btn btn-primary btn-sm">
+                                <a href="{{route('lead.viewedit',$lead->id)}}" class="text-primary " >
+                                    <button class="btn btn-primary  btn-sm">
                                     <i class="fas fa-eye"></i>
+                                   </button>
                                 </a>
                                 <!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>eye>>>>>>>>>>>>>>>>>>>>>>>>>> -->
 
@@ -116,9 +125,12 @@
                         </td>
                         <td>
 
-                            <a class="btn btn-primary btn-sm">
-                            <i class="fa-solid fa-clock-rotate-left"></i> Olddata
-                            </a>
+
+                            <a href="{{route('lead.history',$lead->id)}}" >
+                                    <button class="btn btn-primary  btn-sm">
+                                    <i class="fa-solid fa-clock-rotate-left"></i>
+                                   </button>
+                                </a>
                         </td>
                     </tr>
 

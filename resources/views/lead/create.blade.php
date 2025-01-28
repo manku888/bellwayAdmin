@@ -100,10 +100,10 @@
                 <input type="datetime-local" class="form-control" name="last_follow_up_date">
             </div> -->
 
-            <div class="col-md-4">
+            <!-- <div class="col-md-4">
                 <label for="follow_up_date" class="form-label">Follow Up Date & Time</label>
                 <input type="datetime-local" class="form-control" name="follow_up_date" required>
-            </div>
+            </div> -->
         </div>
 
 
