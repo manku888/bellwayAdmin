@@ -104,7 +104,9 @@
 
 
          <!-- "view leads" permission ke liye -->
-            <a class="nav-link text-black" style="font-size:14px;" href="{{ url('admin/lead/index') }}">Leads</a>
+         <a class="nav-link text-black" style="font-size:14px;" href="{{ url('admin/lead/create') }}"> <i class="fa-solid fa-plus"> </i>  &nbsp Add Lead</a>
+                    <a class="nav-link text-black" style="font-size:14px;" href="{{ url('admin/lead/index') }}">All Leads</a>
+                    <a class="nav-link text-black" style="font-size:14px;" href="{{ url('admin/lead/index') }}">Closed Leads</a>
 
 
          <!-- "import leads" permission ke liye -->

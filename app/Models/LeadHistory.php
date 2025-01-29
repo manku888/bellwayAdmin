@@ -21,5 +21,6 @@ class LeadHistory extends Model
         'description',
         'last_follow_up_date',
         'follow_up_date',
+        'follow_up',
     ];
 }

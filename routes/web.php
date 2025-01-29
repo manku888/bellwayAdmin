@@ -111,14 +111,15 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/lead/{id}/viewedit', [LeadController::class, 'viewedit'])->name('lead.viewedit');
 
-        Route::get('/lead/{id}/edit', [LeadController::class, 'edit'])->name('lead.edit');
+        // Route::get('/lead/{id}/edit', [LeadController::class, 'edit'])->name('lead.edit');
         Route::get('/lead/{id}', [LeadController::class, 'update'])->name('lead.update');
+        Route::post('/lead/{id}', [LeadController::class, 'editupdate'])->name('lead.editupdate');
         Route::delete('/lead/{id}', [LeadController::class, 'destroy'])->name('lead.destroy');
 
+
+
+       // hestory
         Route::get('/lead/{id}/history', [LeadController::class, 'history'])->name('lead.history');
-
-
-
 
     });
 
