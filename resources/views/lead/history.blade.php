@@ -3,7 +3,10 @@
 @section('content')
 
 <h3>history</h3>
+<div class="d-flex justify-content-end ">
 
+<a href="{{ route('lead.index') }}" class="btn btn-secondary btn-sm mb-3">Back</a>
+</div>
 <div class="flex justify-between">
 
 
@@ -23,12 +26,13 @@
                         <th>Phone Number</th>
                         <th>City</th>
                         <th>Email</th>
-                        <th>follow_up</th>
-                        <th style="width: 400px;">Last Follow Date & Time</th>
+
+                        <!-- <th style="width: 400px;">Last Follow Date & Time</th> -->
                         <th>Status</th>
                         <th class="upcoming-column">Follow-Up Date & Time</th>
                         <th>Description</th>
                         <th>Status Follow Up</th>
+
 
 
                     </tr>
@@ -54,11 +58,8 @@
                         <td>{{ $leadhistory->phone_number }}</td>
                         <td>{{ $leadhistory->city }}</td>
                         <td>{{ $leadhistory->email }}</td>
-                        <td >
-                            <span class="badge rounded-pill bg-success">{{$leadhistory->follow_up}}
-                        </span>
-                        </td>
-                        <td>{{date('d-m-Y g:i A', strtotime( $leadhistory->created_at))}}</td>
+
+                        <!-- <td>{{date('d-m-Y g:i A', strtotime( $leadhistory->created_at))}}</td> -->
                         <td>
                             <span class="badge rounded-pill bg-danger" >
                                 {{ $leadhistory->status }}
@@ -72,12 +73,16 @@
 
                         </td>
                         <td>{{ $leadhistory->description }}</td>
-                        <td>
+                        <!-- <td>
                             @if ($leadhistory->follow_up_date > now())
                             <span leadhistory="badge rounded-pill bg-danger" >up-comming</span>
                             @else
                             <span leadhistory="badge rounded-pill bg-warning" >pending</span>
                             @endif
+                        </td> -->
+                        <td >
+                            <span class="badge rounded-pill bg-success">{{$leadhistory->follow_up}}
+                        </span>
                         </td>
 
                     </tr>

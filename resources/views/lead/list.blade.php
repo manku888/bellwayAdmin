@@ -140,15 +140,15 @@
 
 
                 <td>
-                       <div class="btn-group d-flex gap-3" role="group">
+                       <div class="btn-group d-flex gap-3  justify-content-center align-items-center" role="group">
 
                         <!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>edit>>>>>>>>>>>>>>>>>>>>>>>>>> -->
 
                                                                <!-- Button trigger modal -->
                                                               <!-- Trigger Button -->
                                     <a type="button"  data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                    data-id="{{ $lead->id }}" data-service="{{ $lead->services }}"
-                                    data-description="{{ $lead->descriptions }}" data-follow-up="{{ $lead->follow_up_date }}"
+                                    data-id="{{ $lead->id }}" data-service="{{ $lead->service }}"
+                                    data-description="{{ $lead->description }}"follow_up_date="{{ $lead->follow_up_date }}"
                                     data-status="{{ $lead->status }}">
                                         <i class="fa-solid fa-pen text-primary"></i>
                                     </a>
@@ -158,20 +158,22 @@
                         <!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>eye>>>>>>>>>>>>>>>>>>>>>>>>>> -->
                         <a href="{{route('lead.viewedit',$lead->id)}}"  >
 
-                            <i class="fas fa-eye text-black"></i>
+                            <i class="fas fa-eye text-black ms-1"></i>
 
                         </a>
                         <!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>eye>>>>>>>>>>>>>>>>>>>>>>>>>> -->
 
                         <!-- delete -->
                         <form action="{{route('lead.destroy',$lead->id)}}" method="post" >
-                 @csrf
-                 @method('delete')
+                            @csrf
+                            @method('delete')
 
-                 <button type="submit" class="btn  btn-sm" onclick="return confirm('Are you sure you want to delete this hiring data?')">
-                            <i class="fa-solid fa-trash " style="color: red;"></i>
-                        </button>
-                </form>
+                            <button type="submit" class="btn  btn-sm" onclick="return confirm('Are you sure you want to delete this hiring data?')">
+                                     <i class="fa-solid fa-trash " style="color: red;"></i>
+                            </button>
+                         </form>
+
+
 
                         <!-- delete -->
 
@@ -202,84 +204,9 @@
 </div>
 
 
-<!-- Edit Modal
-<div class="modal fade" id="editLeadModal" tabindex="-1" aria-labelledby="editLeadModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editLeadModalLabel">Edit Lead</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="editLeadForm" method="POST">
-                    @csrf
-                    @method('PUT')
 
-                    <input type="hidden" name="lead_id" id="lead_id">
+<!-- >>>>>>>>>>>>>>>>>> edit  >>>>>>>>>>>>>>>>>>>>>>>>. -->
 
-                    <div class="mb-3">
-                        <label for="edit_lead" class="form-label">Lead</label>
-                        <input type="text" class="form-control" id="edit_lead" name="lead">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="edit_services" class="form-label">Services</label>
-                        <input type="text" class="form-control" id="edit_services" name="services">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="edit_description" class="form-label">Description</label>
-                        <textarea class="form-control" id="edit_description" name="description"></textarea>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="edit_follow_up_date" class="form-label">Follow-Up Date</label>
-                        <input type="datetime-local" class="form-control" id="edit_follow_up_date" name="follow_up_date">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="edit_status" class="form-label">Status</label>
-                        <select class="form-select" id="edit_status" name="status">
-                            <option value="Pending">Pending</option>
-                            <option value="Completed">Completed</option>
-                            <option value="In Progress">In Progress</option>
-                        </select>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Update Lead</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div> -->
-
-
-<!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>. -->
- <!-- Button trigger modal -->
-
-
-<!-- Modal -->
-<!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-    <form action="">
-
-    </form>
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-
-    </div>
-  </div>
-</div> -->
 
 
 <!-- Modal -->
@@ -358,7 +285,7 @@
       const leadId = this.getAttribute('data-id');
       const service = this.getAttribute('data-service');
       const description = this.getAttribute('data-description');
-      const followUp = this.getAttribute('data-follow-up');
+      const followUp = this.getAttribute('follow_up_date');
       const status = this.getAttribute('data-status');
 
       // Set form action dynamically
@@ -372,10 +299,13 @@
       document.getElementById('follow_up_date').value = followUp || ''; // Ensure non-null value
       document.getElementById('status').value = status || ''; // Ensure non-null value
     });
+
+
+
+
+
+
   });
-
-
-
 
 
 
