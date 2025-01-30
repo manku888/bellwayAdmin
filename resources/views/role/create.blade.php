@@ -1,75 +1,48 @@
 @extends('layouts.admin')
 
 @section('content')
-
-<h3>Roles/ Create</h3>
-<div class="d-flex justify-content-end">
-    <a href="{{ route('role.index') }}" class="btn btn-secondary btn-sm" >list of roles</a>
-</div>
-
-<!-- create permistions -->
-<div class="py-12">
-
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                 <form action="{{route('role.store')}}" method="post">
-                  @csrf
-                    <div>
-                        <label for="" class="text-lg font-medium">Name</label>
-                      <div class="my-3">
-                           <input value="{{ old('name') }}" name="name" placeholder="Enter Name" type="text"
-                           class="border-gray-300 shadow-sm w-1/2 rounded-lg">
-                           @error('name')
-                           <p class="text-red-400 font-medium">{{$message}}</p>
-                           @enderror
-                      </div>
-
-                       <div class="grid grid-cols-2 mb-3">
-
-                            @if ($permissions ->isNotEmpty())
-                            <div >
-                                    @foreach ($permissions as $permission )
-                                        <div class="mt-3 me-3 ">
-                                            <input type="checkbox" id="permission-{{$permission->id}}" class="rounded" name="permission[]"
-                                            value="{{$permission->name}}">
-                                            <label for="permission-{{$permission->id}}">{{$permission->name}}</label>
-                                        </div>
-                                    @endforeach
-                            </div>
-                            @endif
-                      </div>
-
-
-
-
-                      <button class="btn btn-primary btn-sm">Submit</button>
-
-                    </div>
-                 </form>
-
-                </div>
-            </div>
-        </div>
+<div class="container mt-4">
+    <h3 class="mb-0 text-center">Create Role</h3>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <a href="{{ route('role.index') }}" class="btn btn-secondary btn-sm">List of Roles</a>
     </div>
 
+    <!-- Role Creation Form -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <form action="{{ route('role.store') }}" method="post">
+                @csrf
 
+                <div class="mb-3">
+                    <label for="name" class="form-label">Role Name</label>
+                    <input type="text" name="name" id="name" class="form-control" placeholder="Enter Role Name" value="{{ old('name') }}">
+                    @error('name')
+                    <small class="text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
 
+                <!-- Permissions Selection -->
+                @if ($permissions->isNotEmpty())
+                <div class="mb-3">
+                    <label class="form-label">Assign Permissions</label>
+                    <div class="row">
+                        @foreach ($permissions as $permission)
+                        <div class="col-md-6">
+                            <div class="form-check">
+                                <input type="checkbox" id="permission-{{ $permission->id }}" name="permission[]" class="form-check-input" value="{{ $permission->name }}">
+                                <label class="form-check-label" for="permission-{{ $permission->id }}">{{ $permission->name }}</label>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
+                @endif
 
-<!-- list of permissions -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                <div class="text-end">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @endsection
-

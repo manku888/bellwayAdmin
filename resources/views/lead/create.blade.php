@@ -15,9 +15,9 @@
                     @foreach ($assignees as $assignee)
                         <option value="{{ $assignee }}">{{ $assignee }}</option>
                     @endforeach
-                    <option value="other">Other</option>
+                    <!-- <option value="other">Other</option> -->
                 </select>
-                <input type="text" class="form-control mt-2" name="assignee_other" placeholder="Enter Assignee Name" style="display: none;">
+                <!-- <input type="text" class="form-control mt-2" name="assignee_other" placeholder="Enter Assignee Name" style="display: none;"> -->
             </div>
 
             <div class="col-md-4">
@@ -27,9 +27,9 @@
                     @foreach ($services as $service)
                         <option value="{{ $service }}">{{ $service }}</option>
                     @endforeach
-                    <option value="other">Other</option>
+                    <!-- <option value="other">Other</option> -->
                 </select>
-                <input type="text" class="form-control mt-2" name="service_other" placeholder="Enter Service" style="display: none;">
+                <!-- <input type="text" class="form-control mt-2" name="service_other" placeholder="Enter Service" style="display: none;"> -->
             </div>
 
             <div class="col-md-4">
@@ -39,25 +39,25 @@
                     @foreach ($statuses as $status)
                         <option value="{{ $status }}">{{ $status }}</option>
                     @endforeach
-                    <option value="other">Other</option>
+                    <!-- <option value="other">Other</option> -->
                 </select>
-                <input type="text" class="form-control mt-2" name="status_other" placeholder="Enter Status" style="display: none;">
+                <!-- <input type="text" class="form-control mt-2" name="status_other" placeholder="Enter Status" style="display: none;"> -->
             </div>
         </div>
 
         <!-- Row 2 -->
         <div class="row mb-3">
-            <div class="col-md-4">
-                <label for="source" class="form-label">Source</label>
-                <select class="form-control" name="source" required>
-                    <option value="">Select Source</option>
-                    @foreach ($sources as $source)
-                        <option value="{{ $source }}">{{ $source }}</option>
-                    @endforeach
-                    <option value="other">Other</option>
-                </select>
-                <input type="text" class="form-control mt-2" name="source_other" placeholder="Enter Source" style="display: none;">
-            </div>
+        <div class="col-md-4">
+        <label for="source" class="form-label">Source</label>
+        <select class="form-control" name="source" required>
+            <option value="">Select Source</option>
+            @foreach ($sources as $source)
+                <option value="{{ $source }}">{{ $source }}</option>
+            @endforeach
+            <!-- <option value="other">Other</option> -->
+        </select>
+        <!-- <input type="text" class="form-control mt-2" name="source_other" placeholder="Enter Source" style="display: none;"> -->
+    </div>
 
             <div class="col-md-4">
                 <label for="budget" class="form-label">Budget</label>
@@ -129,7 +129,7 @@
 </div>
 
 <!-- JavaScript for showing text input when "Other" is selected in dropdown -->
-<script>
+<!-- <script>
     document.querySelectorAll('select').forEach(function(select) {
         select.addEventListener('change', function() {
             let inputField = this.nextElementSibling;
@@ -138,6 +138,49 @@
             } else {
                 inputField.style.display = 'none';
             }
+        });
+    });
+</script> -->
+
+
+<!-- JavaScript to Handle "Other" Option -->
+<script>
+     document.addEventListener('DOMContentLoaded', function() {
+        // Function to toggle visibility of "Other" input fields
+        function toggleOtherInput(selectElement, inputElement) {
+            if (selectElement.value === 'other') {
+                inputElement.style.display = 'block'; // Show the input field
+            } else {
+                inputElement.style.display = 'none'; // Hide the input field
+            }
+        }
+
+        // Assignee
+        const assigneeSelect = document.querySelector('select[name="assignee"]');
+        const assigneeOtherInput = document.querySelector('input[name="assignee_other"]');
+        assigneeSelect.addEventListener('change', function() {
+            toggleOtherInput(assigneeSelect, assigneeOtherInput);
+        });
+
+        // Service
+        const serviceSelect = document.querySelector('select[name="service"]');
+        const serviceOtherInput = document.querySelector('input[name="service_other"]');
+        serviceSelect.addEventListener('change', function() {
+            toggleOtherInput(serviceSelect, serviceOtherInput);
+        });
+
+        // Status
+        const statusSelect = document.querySelector('select[name="status"]');
+        const statusOtherInput = document.querySelector('input[name="status_other"]');
+        statusSelect.addEventListener('change', function() {
+            toggleOtherInput(statusSelect, statusOtherInput);
+        });
+
+        // Source
+        const sourceSelect = document.querySelector('select[name="source"]');
+        const sourceOtherInput = document.querySelector('input[name="source_other"]');
+        sourceSelect.addEventListener('change', function() {
+            toggleOtherInput(sourceSelect, sourceOtherInput);
         });
     });
 </script>

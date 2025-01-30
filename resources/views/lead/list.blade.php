@@ -5,27 +5,78 @@
 
 <div class="flex justify-between">
 
-        @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-        @endif
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-        @if(session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
-        @endif
+@if(session('success'))
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: "{{ session('success') }}",
+            timer: 3000,
+            showConfirmButton: false
+        });
+    });
+</script>
+@endif
 
-        <!-- <div class="d-flex justify-content-end mb-3" style="width: 100%; ">
-        <a href="{{route('lead.create')}}"  class="btn btn-secondary btn-sm"> Add New Lead</a>
-       </div> -->
+@if(session('error'))
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: "{{ session('error') }}",
+            timer: 3000,
+            showConfirmButton: false
+        });
+    });
+</script>
+@endif
+<!-- Add this script for auto-dismissal -->
+<script>
+    // Function to display the toast notification and automatically dismiss after 3 seconds
+    document.addEventListener("DOMContentLoaded", function() {
+        // Check if there is any success or error message
+        const successToast = document.getElementById('successToast');
+        const errorToast = document.getElementById('errorToast');
+        const toastContainer = document.getElementById('toastContainer');
 
-       <div class="d-flex justify-content-between align-items-center position-fixed   " style="width:80vw; top: 80px; z-index: 1000;">
+        // Display the toast container if there is any toast to show
+        if (successToast || errorToast) {
+            toastContainer.style.display = 'block';
+
+            // Show success toast
+            if (successToast) {
+                const toast = new bootstrap.Toast(successToast);
+                toast.show();
+            }
+
+            // Show error toast
+            if (errorToast) {
+                const toast = new bootstrap.Toast(errorToast);
+                toast.show();
+            }
+
+            // Hide toast container after 3 seconds
+            setTimeout(() => {
+                toastContainer.style.display = 'none';
+            }, 3000);
+        }
+    });
+</script>
+
+
+<!-- nav bar Import , export, search -->
+       <div class="d-flex justify-content-between align-items-center position-fixed  bg-light p-2 rounded " style="width:81vw; top: 55px; z-index: 1000;">
         <button type="button" class="btn btn-outline-secondary hover:bg-black">
             <i class="fa-solid fa-file-export"></i> Export
         </button>
-
+        <button type="button" class="btn btn-outline-secondary hover:bg-black">
+            <i class="fa-solid fa-file-import"></i> Import
+        </button>
+        <!-- TODO last month this month last year custom range -->
         <select id="dateFilter" class="form-select w-25">
             <option value="">Filter by Date</option>
             <option value="today">Today</option>
@@ -35,19 +86,149 @@
             <option value="lastmonth">Last Month</option>
             <option value="thismonth">This Month</option>
             <option value="lastyear">Last Year</option>
-            <option value="customrange">Custom Range</option>
+            <!-- <option value="customrange">Custom Range</option> -->
         </select>
+        <!-- created date filter -->
+        <script>
+            document.getElementById('dateFilter').addEventListener('change', function() {
+                const filterValue = this.value;
+                const rows = document.querySelectorAll('#table tbody tr');
+                const today = new Date();
+                const last30Days = getPastDate(30);
+                const last90Days = getPastDate(90);
+                const last6Months = getPastDate(180);
+                const firstOfThisMonth = getFirstOfThisMonth();
+                const firstOfLastMonth = getFirstOfLastMonth();
+                const lastOfLastMonth = getLastOfLastMonth();
+                const firstOfLastYear = getFirstOfLastYear();
+                const lastOfLastYear = getLastOfLastYear();
 
-        <div id="customDateRange" class="d-none">
-            <input type="date" id="startDate" class="form-control" placeholder="Start Date">
-            <input type="date" id="endDate" class="form-control" placeholder="End Date">
-        </div>
+                console.log(`%c Selected Filter: ${filterValue}`, "background: green; color: white; padding: 5px; border-radius: 5px;");
+
+                rows.forEach(row => {
+                    const createdAtCell = row.querySelector('td:nth-child(4)');
+                    if (!createdAtCell) return;
+
+                    const rowDate = createdAtCell.textContent.trim().split(" ")[0];
+                    let showRow = false;
+
+                    switch (filterValue) {
+                        case "today":
+                            showRow = rowDate === formatDate(today);
+                            console.log("Showing results of today:", formatDate(today));
+                            break;
+                        case "last30days":
+                            showRow = isWithinRange(rowDate, last30Days);
+                            console.log("Last 30 Days:", formatDate(last30Days), "to", formatDate(today));
+                            break;
+                        case "last90days":
+                            showRow = isWithinRange(rowDate, last90Days);
+                            console.log("Last 90 Days:", formatDate(last90Days), "to", formatDate(today));
+                            break;
+                        case "last6months":
+                            showRow = isWithinRange(rowDate, last6Months);
+                            console.log("Last 180 Days:", formatDate(last6Months), "to", formatDate(today));
+                            break;
+                        case "thismonth":
+                            showRow = isWithinRange(rowDate, firstOfThisMonth);
+                            console.log("This Month:", formatDate(firstOfThisMonth), "to", formatDate(today));
+                            break;
+                        case "lastmonth":
+                            showRow = isWithinRange(rowDate, firstOfLastMonth, lastOfLastMonth);
+                            console.log("Last Month:", formatDate(firstOfLastMonth), "to", formatDate(lastOfLastMonth));
+                            break;
+                        case "lastyear":
+                            showRow = isWithinRange(rowDate, firstOfLastYear, lastOfLastYear);
+                            console.log("Last Year:", formatDate(firstOfLastYear), "to", formatDate(lastOfLastYear));
+                            break;
+                    }
+
+                    row.style.display = showRow ? '' : 'none';
+                });
+            });
+
+            // ✅ Function to format a Date object as "DD-MM-YYYY"
+            function formatDate(date) {
+                if (!(date instanceof Date)) return date; // Ensure date is a Date object
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const year = date.getFullYear();
+                return `${day}-${month}-${year}`;
+            }
+
+            // ✅ Function to get past date as a Date object
+            function getPastDate(days) {
+                const date = new Date();
+                date.setDate(date.getDate() - days);
+                return date;
+            }
+
+            // ✅ Function to get first day of this month
+            function getFirstOfThisMonth() {
+                return new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+            }
+
+            // ✅ Function to get first day of last month
+            function getFirstOfLastMonth() {
+                return new Date(new Date().getFullYear(), new Date().getMonth() - 1, 1);
+            }
+
+            // ✅ Function to get last day of last month
+            function getLastOfLastMonth() {
+                return new Date(new Date().getFullYear(), new Date().getMonth(), 0);
+            }
+
+            // ✅ Function to get first day of last year
+            function getFirstOfLastYear() {
+                return new Date(new Date().getFullYear() - 1, 0, 1);
+            }
+
+            // ✅ Function to get last day of last year
+            function getLastOfLastYear() {
+                return new Date(new Date().getFullYear() - 1, 11, 31);
+            }
+
+            // ✅ Function to check if row date is within a given range
+            function isWithinRange(rowDate, startDate, endDate = new Date()) {
+                const [day, month, year] = rowDate.split("-").map(Number);
+                const rowDateObj = new Date(year, month - 1, day); // Convert "DD-MM-YYYY" to Date object
+
+                return rowDateObj >= startDate && rowDateObj <= endDate;
+            }
+        </script>
 
         <div class="input-group w-25">
             <span class="input-group-text">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </span>
             <input type="search" id="searchInput" placeholder="Start typing to search" class="form-control">
+            <script>
+                //   global search
+                document.getElementById('searchInput').addEventListener('input', function() {
+                    const searchQuery = this.value.toLowerCase(); // Get the search query
+                    const rows = document.querySelectorAll('#table tbody tr'); // Select all rows
+
+                    rows.forEach(row => {
+                        // Fetch the text content of the target columns
+                        const assignee = row.querySelector('.assignee').textContent.toLowerCase();
+                        const source = row.querySelector('.source').textContent.toLowerCase();
+                        const service = row.querySelector('.service').textContent.toLowerCase();
+                        const fullname = row.querySelector('.fullname').textContent.toLowerCase();
+                        const phonenumber = row.querySelector('.phonenumber').textContent.toLowerCase();
+                        const city = row.querySelector('.city').textContent.toLowerCase();
+                        const email = row.querySelector('.email').textContent.toLowerCase();
+                        const status = row.querySelector('.status').textContent.toLowerCase();
+                        const statusfollowup = row.querySelector('.statusfollowup').textContent.toLowerCase();
+
+                        // Show/Hide the row based on the search query
+                        if (assignee.includes(searchQuery) || source.includes(searchQuery) || service.includes(searchQuery) || fullname.includes(searchQuery) || phonenumber.includes(searchQuery) || city.includes(searchQuery) || email.includes(searchQuery) || status.includes(searchQuery) || statusfollowup.includes(searchQuery)) {
+                            row.style.display = ''; // Show the row
+                        } else {
+                            row.style.display = 'none'; // Hide the row
+                        }
+                    });
+                });
+            </script>
         </div>
 
         <a href="{{ route('lead.create') }}" class="btn btn-primary btn-sm">
@@ -58,16 +239,95 @@
         </button>
     </div>
 
+    <!-- filter side bar -->
+     <!-- Filter Bar -->
+
+    <div class="filter-bar h-100 position-fixed p-4 overflow-scroll" id="filterBar"
+        style="width:30vw; top: 0; right: -30vw; z-index: 9999; background-color: rgb(250, 250, 250, 0.7);
+     backdrop-filter: blur(15px); border-top-left-radius: 10px; border-bottom-right-radius: 10px;">
+
+        <div class="filter-bar-header d-flex justify-content-between align-items-center">
+            <h5>Filters</h5>
+            <button class="btn-close bg-white p-2" id="closeFilterBar"></button>
+        </div>
+
+        <!-- Filter Form -->
+        <form action="" class="mt-3">
+            <!-- Assignee -->
+            <div class="mb-3">
+                <label for="assignee" class="form-label">Assignee</label>
+                <input type="text" class="form-control" id="assignee" placeholder="Enter assignee's name">
+            </div>
+
+            <!-- Created Date -->
+            <div class="mb-3">
+                <label for="createdDate" class="form-label">Created Date</label>
+                <input type="date" class="form-control" id="createdDate">
+            </div>
+
+            <!-- Service -->
+            <div class="mb-3">
+                <label for="service" class="form-label">Service</label>
+                <input type="text" class="form-control" id="service" placeholder="Enter service type">
+            </div>
+
+            <!-- Source -->
+            <div class="mb-3">
+                <label for="source" class="form-label">Source</label>
+                <input type="text" class="form-control" id="source" placeholder="Enter source">
+            </div>
+
+            <!-- City -->
+            <div class="mb-3">
+                <label for="city" class="form-label">City</label>
+                <input type="text" class="form-control" id="city" placeholder="Enter city">
+            </div>
+
+            <!-- Follow-up Date -->
+            <div class="mb-3">
+                <label for="followUpDate" class="form-label">Follow-up Date</label>
+                <input type="date" class="form-control" id="followUpDate">
+            </div>
+
+            <!-- Follow-up Status -->
+            <div class="mb-3">
+                <label for="followUpStatus" class="form-label">Follow-up Status</label>
+                <select class="form-control" id="followUpStatus">
+                    <option value="">Select status</option>
+                    <option value="pending">Pending</option>
+                    <option value="completed">Completed</option>
+                    <option value="in-progress">In Progress</option>
+                </select>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
+        </form>
+
+        <!-- Script for opening and closing the filter bar -->
+        <script>
+            document.getElementById('filterBar').style.transition = 'right 0.5s ease-in-out';
+
+            document.getElementById('filter').addEventListener('click', function() {
+                document.getElementById('filterBar').style.right = '0';
+            });
+
+            document.getElementById('closeFilterBar').addEventListener('click', function() {
+                document.getElementById('filterBar').style.right = '-30vw';
+            });
+        </script>
+    </div>
+
         <!-- Table -->
-<div class="table-responsive" style="margin-top: 100px;">
+<div class="table-responsive" style="margin-top: 70px;">
 
     <table class="custom-table table table-striped table-bordered text-nowrap" id="table">
-        <thead>
+        <thead class="bg-light">
             <tr class="text-center">
                 <th>Assignee</th>
                 <th>S.NO.</th>
-                <th>Created Date</th>
                 <th>Source</th>
+                <th>Created Date</th>
                 <th>Services</th>
                 <th>Budget</th>
                 <th>Full Name</th>
@@ -78,37 +338,42 @@
                 <th>Status</th>
                 <th class="upcoming-column">Follow-Up Date & Time</th>
                 <th>Description</th>
-                <th>Status Follow Up</th>
+                <th>Follow Up Status</th>
                 <th>Action</th>
                 <th>History</th>
             </tr>
         </thead>
         <tbody>
+        @php
+            $sno = ($leads->currentPage() - 1) * $leads->perPage() + 1;
+        @endphp
             @foreach($leads as $lead)
-            <tr>
+            <tr  class="{{ $loop->odd ? 'bg-white' : 'custom-bg-offwhite' }} ">
                 <td class="assignee">
                     <span class="badge rounded-pill bg-success" >
                         {{ $lead->assignee }}
                     </span>
                 </td>
-                <td>{{ $loop->iteration }}</td>
+
+                <td class="text-center">{{ $sno++ }}</td>
+                <td class="source badge" style="background-color: {{ $sources[$lead->source] ?? '#fafafa' }}; ">
+                        {{ $lead->source }}
+               </td>
                 <td>{{date('d-m-Y g:i A',strtotime( $lead->created_at))}}</td>
-                <td class="source">
-                    <span class="badge rounded-pill"
-                        style="background-color: #0A53A8; color: white;">{{ $lead->source }}
-                    </span>
-                </td>
-                <td class="service">{{ $lead->service }}</td>
+
+
+                <td class="service badge" style="background-color: {{ $services[$lead->service] ?? '#fafafa' }}; ">
+                        {{ $lead->service }}
+               </td>
                 <td>{{ $lead->budget }}</td>
                 <td class="fullname">{{ $lead->full_name }}</td>
                 <td class="phonenumber">{{ $lead->phone_number }}</td>
                 <td class="city">{{ $lead->city }}</td>
                 <td class="email">{{ $lead->email }}</td>
                 <td>{{date('d-m-Y g:i A', strtotime( $lead->created_at))}}</td>
-                <td class="status">
-                    <span class="badge rounded-pill bg-danger" >
+                <td class="status badge" style="background-color: {{ $statuses[$lead->status] ?? '#fafafa' }}; ">
+
                         {{ $lead->status }}
-                    </span>
                 </td>
                 <td class="text-center">
                 <span>
@@ -140,7 +405,7 @@
 
 
                 <td>
-                       <div class="btn-group d-flex gap-3  justify-content-center align-items-center" role="group">
+                       <div class="btn-group d-flex gap-3  " role="group">
 
                         <!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>edit>>>>>>>>>>>>>>>>>>>>>>>>>> -->
 
@@ -197,9 +462,27 @@
             @endforeach
         </tbody>
     </table>
+
 </div>
 
+ <!-- Pagination -->
+ <div class="d-flex justify-content-center mt-3">
+        {{ $leads->links() }}
+    </div>
 
+
+<!-- table custom classes -->
+<style>
+         /* Custom Background Colors  */
+        .custom-bg-offwhite {
+            background-color: whitesmoke !important;
+
+        }
+
+        .bg-light {
+            background-color: #f0f0f0 !important;
+        }
+    </style>
 
 </div>
 
@@ -277,6 +560,8 @@
   </div>
 </div>
 
+
+<!--model or filters ki scripts  -->
 <script>
 
   // Populate Modal with Data on Button Click
@@ -300,12 +585,47 @@
       document.getElementById('status').value = status || ''; // Ensure non-null value
     });
 
-
-
-
-
-
   });
+
+//filter
+// document.addEventListener("DOMContentLoaded", function() {
+//     const dateFilter = document.getElementById("dateFilter");
+//     const startDate = document.getElementById("startDate");
+//     const endDate = document.getElementById("endDate");
+//     const filterButton = document.getElementById("filter");
+
+//     // Toggle custom date range visibility
+//     dateFilter.addEventListener("change", function() {
+//         if (this.value === "customrange") {
+//             document.getElementById("customDateRange").classList.remove("d-none");
+//         } else {
+//             document.getElementById("customDateRange").classList.add("d-none");
+//         }
+//     });
+
+//     // Handle filter button click
+//     filterButton.addEventListener("click", function() {
+//         const dateValue = dateFilter.value;
+//         const start = startDate.value;
+//         const end = endDate.value;
+
+//         const url = new URL(window.location.href);
+//         const params = new URLSearchParams(url.search);
+
+//         // Set the filter parameters in the URL
+//         if (dateValue) params.set("date", dateValue);
+//         if (start && end) {
+//             params.set("start_date", start);
+//             params.set("end_date", end);
+//         }
+
+//         // Reload the page with new filter parameters
+//         window.location.search = params.toString();
+//     });
+// });
+
+
+
 
 
 

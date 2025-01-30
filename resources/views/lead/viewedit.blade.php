@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
-    <h3>Update Lead</h3>
+    <h3>Edit Lead</h3>
     <div class="d-flex justify-content-end ">
 
         <a href="{{ route('lead.index') }}" class="btn btn-secondary btn-sm mb-3">Back</a>
@@ -28,12 +28,9 @@
                             {{ $assignee }}
                         </option>
                     @endforeach
-                    <option value="other" {{ !in_array($lead->assignee, $assignees) ? 'selected' : '' }}>Other</option>
+
                 </select>
-                <input type="text" class="form-control mt-2" name="assignee_other"
-                    placeholder="Enter Assignee Name"
-                    style="{{ !in_array($lead->assignee, $assignees) ? '' : 'display: none;' }}"
-                    value="{{ !in_array($lead->assignee, $assignees) ? $lead->assignee : '' }}" disabled>
+
             </div>
 
             <div class="col-md-4">
@@ -45,12 +42,9 @@
                             {{ $service }}
                         </option>
                     @endforeach
-                    <option value="other" {{ !in_array($lead->service, $services) ? 'selected' : '' }}>Other</option>
+
                 </select>
-                <input type="text" class="form-control mt-2" name="service_other"
-                    placeholder="Enter Service"
-                    style="{{ !in_array($lead->service, $services) ? '' : 'display: none;' }}"
-                    value="{{ !in_array($lead->service, $services) ? $lead->service : '' }}" disabled>
+
             </div>
 
             <div class="col-md-4">
@@ -62,12 +56,9 @@
                             {{ $status }}
                         </option>
                     @endforeach
-                    <option value="other" {{ !in_array($lead->status, $statuses) ? 'selected' : '' }}>Other</option>
+
                 </select>
-                <input type="text" class="form-control mt-2" name="status_other"
-                    placeholder="Enter Status"
-                    style="{{ !in_array($lead->status, $statuses) ? '' : 'display: none;' }}"
-                    value="{{ !in_array($lead->status, $statuses) ? $lead->status : '' }}" disabled>
+
             </div>
         </div>
 
@@ -82,12 +73,9 @@
                             {{ $source }}
                         </option>
                     @endforeach
-                    <option value="other" {{ !in_array($lead->source, $sources) ? 'selected' : '' }}>Other</option>
+
                 </select>
-                <input type="text" class="form-control mt-2" name="source_other"
-                    placeholder="Enter Source"
-                    style="{{ !in_array($lead->source, $sources) ? '' : 'display: none;' }}"
-                    value="{{ !in_array($lead->source, $sources) ? $lead->source : '' }}" disabled>
+
             </div>
 
             <div class="col-md-4">

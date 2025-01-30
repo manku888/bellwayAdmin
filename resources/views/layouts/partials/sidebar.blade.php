@@ -119,6 +119,21 @@
     </nav>
 </div>
 
+<!-- Leads Master Section -->
+<a class="nav-link collapsed text-black" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLeadsMaster" aria-expanded="false" aria-controls="collapseLeadsMaster">
+    <!-- <img src="/admin/images/admin_logo/leads_master.png" style="height:7%; width:11%; margin:7px;" alt="leads master logo"> -->
+    <div style="font-size: 15px; transition: 0.3s;" onmouseover="this.style.color='red'" onmouseout="this.style.color='black'">Leads Master</div>
+    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+</a>
+
+<div class="collapse" id="collapseLeadsMaster" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+    <nav class="sb-sidenav-menu-nested nav">
+        <a class="nav-link text-black" style="font-size:14px;" href="{{ url('admin/leads-master/source') }}"> <i class="fa-solid fa-plus"> </i>  &nbsp Add Source</a>
+        <a class="nav-link text-black" style="font-size:14px;" href="{{ url('admin/leads-master/service') }}"><i class="fa-solid fa-plus"> </i>  &nbsp Add Service</a>
+        <a class="nav-link text-black" style="font-size:14px;" href="{{ url('admin/leads-master/status') }}"><i class="fa-solid fa-plus"> </i>  &nbsp Add Status</a>
+    </nav>
+</div>
+
                             <!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
 
                             <!-- hiring -->

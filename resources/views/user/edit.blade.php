@@ -2,84 +2,71 @@
 
 @section('content')
 
-<h3>Users / edit</h3>
-<div class="d-flex justify-content-end">
-    <a href="{{ route('user.index') }}" class="btn btn-secondary btn-sm " >list of users</a>
+<div class="d-flex justify-content-between align-items-center py-2">
+    <h3 class="">Edit User</h3>
+    <a href="{{ route('user.index') }}" class="btn  btn-lg">
+        <i class="fas fa-list"> </i>  List of Users
+    </a>
 </div>
 
-<!-- create permistions -->
-<div class="py-12">
+<div class="">
+    <div class="">
+        <div class="card border-light shadow-lg">
+            <div class="card-header bg-secondary text-white">
+                <h5 class="card-title">User Information</h5>
+            </div>
+            <div class="card-body">
 
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-
-                 <form  action="{{route('user.update', $users->id)}}" method="post">
-                  @csrf
-                    <div>
-                        <label for="" class="text-lg font-medium">Name</label>
-                      <div class="my-3">
-                           <input value="{{ old('name',$users->name) }}" name="name" placeholder="Enter Name" type="text"
-                           class="border-gray-300 shadow-sm w-1/2 rounded-lg">
-                           @error('name')
-                           <p class="text-red-400 font-medium">{{$message}}</p>
-                           @enderror
-                      </div>
-
-                      <!-- email -->
-                      <label for="" class="text-lg font-medium">Email</label>
-                      <div class="my-3">
-                           <input value="{{ old('email',$users->email) }}" name="email" placeholder="Enter Email" type="text"
-                           class="border-gray-300 shadow-sm w-1/2 rounded-lg">
-                           @error('email')
-                           <p class="text-red-400 font-medium">{{$message}}</p>
-                           @enderror
-                      </div>
-
-                       <div class="grid grid-cols-2 mb-3">
-
-                            @if ($roles ->isNotEmpty())
-                                    @foreach ($roles as $role )
-                                        <div class="mt-3 ">
-                                            <!-- checked or not -->
-
-
-                                            <input {{($hasRoles->contains($role->id) ? 'checked' : '' )}} type="checkbox" id="role-{{$role->id}}" class="rounded" name="role[]"
-                                            value="{{$role->name}}">
-                                            <label for="role-{{$role->id}}">{{$role->name}}</label>
-                                        </div>
-                                    @endforeach
-
-                            @endif
-                      </div>
-
-                      <button class="btn btn-primary text-sm rounded-md text-black px-2 py-1 ms-1 mb-1">Update</button>
-
+                <form action="{{route('user.update', $users->id)}}" method="post">
+                    @csrf
+                    <div class="form-group mb-4">
+                        <label for="name" class="h5 text-primary">Name</label>
+                        <input value="{{ old('name',$users->name) }}" name="name" type="text" placeholder="Enter Name"
+                            class="form-control form-control-lg @error('name') is-invalid @enderror">
+                        @error('name')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
-                 </form>
 
-                </div>
+                    <div class="form-group mb-4">
+                        <label for="email" class="h5 text-primary">Email</label>
+                        <input value="{{ old('email',$users->email) }}" name="email" type="email" placeholder="Enter Email"
+                            class="form-control form-control-lg @error('email') is-invalid @enderror">
+                        @error('email')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="form-group mb-5">
+                        <label class="h5 text-primary">Roles</label>
+                        <div class="row">
+                            @if ($roles->isNotEmpty())
+                            @foreach ($roles as $role)
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input type="checkbox" name="role[]" value="{{$role->name}}" id="role-{{$role->id}}"
+                                        class="form-check-input @if($hasRoles->contains($role->id)) checked @endif">
+                                    <label class="form-check-label" for="role-{{$role->id}}">{{$role->name}}</label>
+                                </div>
+                            </div>
+                            @endforeach
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <button type="submit" class="btn btn-success btn">
+                            <i class="fas fa-save"></i> Update User
+                        </button>
+                        <a href="{{ route('user.index') }}" class="btn btn-danger btn">
+                            <i class="fas fa-times-circle"></i> Cancel
+                        </a>
+                    </div>
+                </form>
+
             </div>
         </div>
     </div>
-
-
-
-
-<!-- list of permissions -->
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
 
 @endsection
-

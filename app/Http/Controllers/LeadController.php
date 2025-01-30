@@ -7,17 +7,67 @@ use App\Models\LeadHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use App\Models\LeadsMaster;
 
-class LeadController extends Controller
+
+class LeadController extends Controller implements HasMiddleware
 {
+
+
+    public static function middleware() : array
+    {
+
+        return[
+           new Middleware('permission:Add Lead', only: ['create']),
+           new Middleware('permission:edit lead', only: ['editupdate']),
+           new Middleware('permission:view-edit lead', only: ['update']),
+           new Middleware('permission:history lead', only: ['history']),
+           new Middleware('permission:Delete Lead', only:['destroy'] ),
+       ];
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-       $leads = Lead::all();
-        return view('lead.list' ,compact('leads'));
+        //  $leads = Lead::orderBy('created_at','desc')->paginate(10);
+        //  $id = Auth::id();
+        //  $name = Admin::where('name',$name)->first();
+        //  $leads = Lead::where('assignee',$name)->get();
+        // dd($userName);
+
+
+        // add admin permision
+         $userName =   $userName = DB::table('admins')->where('id', Auth::id())->value('name');
+
+            if (Auth::user()->can('View Lead')) {
+
+                $leads = Lead::orderBy('created_at','desc')->paginate(10);
+
+            } else {
+                $leads = Lead::where('assignee', $userName)->get(); // Normal user ho to sirf uski leads dikhao
+            }
+            // $leads = Lead::where('assignee', $userName)->get(); // Assignee se match karein
+            //dd($leads);
+
+
+
+            // get colors from lead master table
+            $services = LeadsMaster::where('type', 'service')->pluck('bg_color', 'name');
+            $statuses = LeadsMaster::where('type', 'status')->pluck('bg_color', 'name');
+            $sources  = LeadsMaster::where('type', 'source')->pluck('bg_color', 'name');
+        return view('lead.list' ,compact('leads','services','statuses','sources'));
     }
+
+    // public function own(){
+    //     $userName =   $userName = DB::table('admins')->where('id', Auth::id())->value('name');
+    //     $leads = Lead::where('assignee', $userName)->get();
+    //     return view('lead.list' ,compact('leads'));
+    // }
 
     /**
      * Show the form for creating a new resource.
@@ -25,10 +75,28 @@ class LeadController extends Controller
     public function create()
     {
         // Dropdown options
-        $assignees = ['Swati', 'Mohit', 'Aakriti', 'Vikash', 'Hemendra'];
-        $services = ['Consultation', 'Development', 'Support', 'Marketing'];
-        $statuses = ['enquiry', 'npc', 'not', 'fake','interested','closedwith','language','low','caf','postponed','closed'];
-        $sources = ['Website', 'Social Media', 'Referral', 'Advertisement'];
+        // $assignees = Lead::pluck('assignee');
+        // dd($assignees);
+        // $assignees = ['Swati', 'Mohit', 'Aakriti', 'Vikash', 'Hemendra'];
+
+        // $services = ['Consultation', 'Development', 'Support', 'Marketing'];
+
+        $assignees = DB::table('admins')->pluck('name');
+
+        // $services = Lead::pluck('service');
+        // $statuses = ['enquiry', 'npc', 'not', 'fake','interested','closedwith','language','low','caf','postponed','closed'];
+        // $statuses = Lead::pluck('status');
+        // $sources = ['Website', 'Social Media', 'Referral', 'Advertisement'];
+        // $sources = Lead::pluck('source');
+
+        // $services = LeadsMaster::where('type', 'service')->pluck('name');
+        // $sources  = LeadsMaster::where('type', 'source')->pluck('name');
+        // $statuses = LeadsMaster::where('type', 'status')->pluck('name');
+
+      // Sirf Active Services, Sources, Status Fetch Karna (Without Color)
+        $services = LeadsMaster::where('type', 'service')->where('status', 1)->pluck('name');
+        $sources  = LeadsMaster::where('type', 'source')->where('status', 1)->pluck('name');
+        $statuses = LeadsMaster::where('type', 'status')->where('status', 1)->pluck('name');
        return view('lead.create',compact('assignees','services','statuses','sources'));
     }
 
@@ -71,10 +139,13 @@ class LeadController extends Controller
     public function viewedit(string $id)
     {
         $lead = Lead::findOrFail($id);
-        $assignees = ['Swati', 'Mohit', 'Aakriti', 'Vikash', 'Hemendra'];
-        $services = ['Consultation', 'Development', 'Support', 'Marketing'];
-        $statuses = ['enquiry', 'npc', 'not', 'fake','interested','closedwith','language','low','caf','postponed','closed'];
-        $sources = ['Website', 'Social Media', 'Referral', 'Advertisement'];
+        // $assignees = ['Swati', 'Mohit', 'Aakriti', 'Vikash', 'Hemendra'];
+        $assignees = DB::table('admins')->pluck('name');
+        $services = LeadsMaster::where('type', 'service')->where('status', 1)->pluck('name');
+        $sources  = LeadsMaster::where('type', 'source')->where('status', 1)->pluck('name');
+        $statuses = LeadsMaster::where('type', 'status')->where('status', 1)->pluck('name');
+
+
 
         return view('lead.viewedit', compact('lead', 'assignees', 'services', 'statuses', 'sources'));
     }
@@ -97,6 +168,7 @@ class LeadController extends Controller
     /**
      * Update the specified resource in storage.
      */
+    // index/ eye
     public function update(Request $request, string $id)
             {
                      // Validate the form data
@@ -142,6 +214,7 @@ class LeadController extends Controller
             $lead->service = $request->service == 'other' ? $request->service_other : $request->service;
             $lead->status = $request->status == 'other' ? $request->status_other : $request->status;
             $lead->source = $request->source == 'other' ? $request->source_other : $request->source;
+
             $lead->budget = $request->budget;
             $lead->full_name = $request->full_name;
             // $lead->phone_number = $request->phone_number;
@@ -161,6 +234,7 @@ class LeadController extends Controller
 
 
 
+        // index /pencil
         public function editupdate(Request $request, string $id)
         {
 
@@ -229,7 +303,11 @@ class LeadController extends Controller
      */
     public function destroy(string $id)
     {
-      dd('delete method working',$id);
+    //   dd('delete method working',$id);
+
+       $lead= Lead::findOrFail($id);
+       $lead->delete();
+       return redirect()->back()->with('success','deleted successfully');
     }
 
 
@@ -247,4 +325,47 @@ class LeadController extends Controller
        return view('lead.history',compact('leadhistorys'));
 
     }
+
+
+
+
+
+    //filter
+    public function filterLeads(Request $request)
+{
+    $dateFilter = $request->query('date');
+    $query = Lead::query();
+
+    switch ($dateFilter) {
+        case 'today':
+
+            $query->whereDate('created_at', Carbon::now());
+            // dd('create_at');
+            break;
+        case 'last30days':
+            $query->where('created_at', '>=', Carbon::now()->subDays(30));
+            break;
+        case 'last90days':
+            $query->where('created_at', '>=', Carbon::now()->subDays(90));
+            break;
+        case 'last6months':
+            $query->where('created_at', '>=', Carbon::now()->subMonths(6));
+            break;
+        case 'lastmonth':
+            $query->whereMonth('created_at', Carbon::now()->subMonth()->month)
+                  ->whereYear('created_at', Carbon::now()->year);
+            break;
+        case 'thismonth':
+            $query->whereMonth('created_at', Carbon::now()->month)
+                  ->whereYear('created_at', Carbon::now()->year);
+            break;
+        case 'lastyear':
+            $query->whereYear('created_at', Carbon::now()->subYear()->year);
+            break;
+    }
+
+    $leads = $query->get();
+
+    return response()->json($leads);
+}
 }

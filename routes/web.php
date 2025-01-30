@@ -13,10 +13,11 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\LeadsMasterController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return redirect('admin/login');
+    return redirect('admin/dashboard');
 });
 
 // Route::get('/dashboard', function () {
@@ -121,6 +122,13 @@ Route::middleware('auth')->group(function () {
        // hestory
         Route::get('/lead/{id}/history', [LeadController::class, 'history'])->name('lead.history');
 
+
+
+        //lead master
+        Route::get('/leads-master/{type}', [LeadsMasterController::class, 'index'])->name('leads-master.index');
+        Route::post('/leads-master/store', [LeadsMasterController::class, 'store'])->name('leads-master.store');
+        Route::get('/leads-master/toggle-status/{id}', [LeadsMasterController::class, 'toggleStatus'])->name('leads-master.toggleStatus');
+        Route::delete('/leads-master/delete/{id}', [LeadsMasterController::class, 'destroy'])->name('leads-master.destroy');
     });
 
 
