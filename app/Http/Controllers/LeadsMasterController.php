@@ -11,15 +11,15 @@ class LeadsMasterController extends Controller implements HasMiddleware
 {
 
 
-    public static function middleware() : array
+    public static function middleware(): array
     {
 
-        return[
-           new Middleware('permission:View Lead master', only: ['index']),
-           new Middleware('permission:create lead master', only: ['create', 'store']),
-        //    new Middleware('permission:edit permission', only: ['edit']),
-           new Middleware('permission:delete Lead master list', only:['destroy'] ),
-       ];
+        return [
+            new Middleware('permission:View Lead master', only: ['index']),
+            new Middleware('permission:create lead master', only: ['create', 'store']),
+            //    new Middleware('permission:edit permission', only: ['edit']),
+            new Middleware('permission:delete Lead master list', only: ['destroy']),
+        ];
     }
 
 
@@ -57,4 +57,3 @@ class LeadsMasterController extends Controller implements HasMiddleware
         return back()->with('success', 'Deleted successfully.');
     }
 }
-

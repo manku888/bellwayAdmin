@@ -9,7 +9,6 @@ class LeadsMaster extends Model
 {
     use HasFactory;
 
-    protected $table='leads_master';
+    protected $table = 'leads_master';
     protected $fillable = ['type', 'name', 'bg_color', 'status'];
 }
-
