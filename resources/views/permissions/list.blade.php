@@ -2,11 +2,11 @@
 
 @section('content')
 
-<div class="container mt-4">
-    <h3 class="text-center mb-4">Permissions</h3>
+<div class="container">
 
-    <div class="d-flex justify-content-between mb-3">
-        <a href="{{ route('permissions.create') }}" class="btn btn-primary btn-sm">Create Permission</a>
+    <div class="d-flex justify-content-between align-items-center py-2">
+        <h3 class="text-center mb-4">Permissions</h3>
+        <a href="{{ route('permissions.create') }}" class="btn btn-outline-secondary btn-sm"><i class="fa-solid fa-plus"></i> &nbsp Create new Permission</a>
     </div>
 
     <div class="table-responsive ">

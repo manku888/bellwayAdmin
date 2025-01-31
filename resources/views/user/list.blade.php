@@ -2,13 +2,13 @@
 
 @section('content')
 
-<div class="container mt-4">
-    <h3 class="text-center mb-4">Users</h3>
+<div class="container ">
 
     <!-- Create Button -->
     @can('create user')
-    <div class="d-flex justify-content-between mb-3">
-        <a href="{{ route('user.create') }}" class="btn btn-primary btn-sm">Create User</a>
+    <div class="d-flex justify-content-between align-items-center py-2">
+        <h3 class="text-center mb-4">Users</h3>
+        <a href="{{ route('user.create') }}" class="btn btn-outline-secondary btn-sm"><i class="fa-solid fa-plus"></i> &nbsp Create new User</a>
     </div>
     @endcan
 
