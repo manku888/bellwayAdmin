@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use App\Models\LeadsMaster;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\LeadExport;
+use App\Imports\LeadImport;
 
 
 class LeadController extends Controller implements HasMiddleware
@@ -32,36 +35,132 @@ class LeadController extends Controller implements HasMiddleware
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        //  $leads = Lead::orderBy('created_at','desc')->paginate(10);
-        //  $id = Auth::id();
-        //  $name = Admin::where('name',$name)->first();
-        //  $leads = Lead::where('assignee',$name)->get();
-        // dd($userName);
-
-
-        // add admin permision
-         $userName =   $userName = DB::table('admins')->where('id', Auth::id())->value('name');
-
-            if (Auth::user()->can('View Lead')) {
-
-                $leads = Lead::orderBy('created_at','desc')->paginate(10);
-
-            } else {
-                $leads = Lead::where('assignee', $userName)->get(); // Normal user ho to sirf uski leads dikhao
-            }
-            // $leads = Lead::where('assignee', $userName)->get(); // Assignee se match karein
-            //dd($leads);
+    // public function index(Request $request)
+    // {
+    //     // dd($request->all());
 
 
 
-            // get colors from lead master table
-            $services = LeadsMaster::where('type', 'service')->pluck('bg_color', 'name');
-            $statuses = LeadsMaster::where('type', 'status')->pluck('bg_color', 'name');
-            $sources  = LeadsMaster::where('type', 'source')->pluck('bg_color', 'name');
-        return view('lead.list' ,compact('leads','services','statuses','sources'));
+    //     // add admin permision
+    //      $userName =   $userName = DB::table('admins')->where('id', Auth::id())->value('name');
+
+
+    //     // Fetch dynamic filter options
+    // $assignees = DB::table('admins')->pluck('name');
+    // $servicess = LeadsMaster::where('type', 'service')->where('status', 1)->pluck('name');
+    // $sourcess = LeadsMaster::where('type', 'source')->where('status', 1)->pluck('name');
+
+    // // Start building the query
+    // $query = Lead::query();
+
+    // // Apply filters based on request parameters
+    // if ($request->has('assignee') && $request->assignee != '') {
+    //     $query->where('assignee', $request->assignee);
+    // }
+
+    // // if ($request->has('createdDate') && $request->createdDate != '') {
+    // //     $query->whereDate('created_at', $request->createdDate);
+    // // }
+
+    // if ($request->has('service') && $request->service != '') {
+    //     $query->where('service', $request->service);
+    // }
+
+    // if ($request->has('source') && $request->source != '') {
+    //     $query->where('source', $request->source);
+    // }
+
+    // if ($request->has('city') && $request->city != '') {
+    //     $query->where('city', 'like', '%' . $request->city . '%');
+    // }
+
+    // // if ($request->has('followUpDate') && $request->followUpDate != '') {
+    // //     $query->whereDate('follow_up_date', $request->followUpDate);
+    // // }
+
+    // if ($request->has('followUpStatus') && $request->followUpStatus != '') {
+    //     $query->where('status', $request->followUpStatus);
+    // }
+
+
+    //         if (Auth::user()->can('View Lead')) {
+
+    //             $leads = Lead::orderBy('created_at','desc')->paginate(10);
+
+    //         } else {
+    //             // $leads = Lead::where('assignee', $userName)->get(); // Normal user ho to sirf uski leads dikhao
+    //             $leads = Lead::where('assignee', $userName)->orderBy('created_at', 'desc')->paginate(10);// Normal user ho to sirf uski leads dikhao
+    //         }
+
+
+    //         // get colors from lead master table
+    //         $services = LeadsMaster::where('type', 'service')->where('status', 1)->pluck('bg_color', 'name');
+    //         $statuses = LeadsMaster::where('type', 'status')->where('status', 1)->pluck('bg_color', 'name');
+    //         $sources  = LeadsMaster::where('type', 'source')->where('status', 1)->pluck('bg_color', 'name');
+
+    //     return view('lead.list' ,compact('leads','services','statuses','sources','assignees','servicess','sourcess' ));
+    // }
+
+
+    public function index(Request $request)
+{
+
+    // dd($request->all());
+
+    $userName = DB::table('admins')->where('id', Auth::id())->value('name');
+
+    // Fetch dynamic filter options
+    $assignees = DB::table('admins')->pluck('name');
+    $servicess = LeadsMaster::where('type', 'service')->where('status', 1)->pluck('name');
+    $sourcess = LeadsMaster::where('type', 'source')->where('status', 1)->pluck('name');
+
+    // Start building the query
+    $query = Lead::query();
+
+    // Apply filters based on request parameters
+    if ($request->filled('assignee')) {
+        $query->where('assignee', $request->assignee);
     }
+
+    // if ($request->filled('createdDate')) {
+    //     $query->whereDate('created_at', $request->createdDate);
+    // }
+
+    if ($request->filled('service')) {
+        $query->where('service', $request->service);
+    }
+
+    if ($request->filled('source')) {
+        $query->where('source', $request->source);
+    }
+
+    if ($request->filled('city')) {
+        $query->where('city', 'like', '%' . $request->city . '%');
+    }
+
+    // if ($request->filled('followUpDate')) {
+    //     $query->whereDate('follow_up_date', $request->followUpDate);
+    // }
+
+    // if ($request->filled('followUpStatus')) {
+    //     $query->where('status', $request->followUpStatus);
+    // }
+
+    // Apply permission-based filtering
+    if (Auth::user()->can('View Lead')) {
+        $leads = $query->orderBy('created_at', 'desc')->paginate(10);
+    } else {
+        $leads = $query->where('assignee', $userName)->orderBy('created_at', 'desc')->paginate(10);
+    }
+
+    // Get colors from LeadsMaster table
+    $services = LeadsMaster::where('type', 'service')->where('status', 1)->pluck('bg_color', 'name');
+    $statuses = LeadsMaster::where('type', 'status')->where('status', 1)->pluck('bg_color', 'name');
+    $sources  = LeadsMaster::where('type', 'source')->where('status', 1)->pluck('bg_color', 'name');
+
+    return view('lead.list', compact('leads', 'services', 'statuses', 'sources', 'assignees', 'servicess', 'sourcess'));
+}
+
 
     // public function own(){
     //     $userName =   $userName = DB::table('admins')->where('id', Auth::id())->value('name');
@@ -121,6 +220,8 @@ class LeadController extends Controller implements HasMiddleware
             'follow_up_date' => 'nullable|date',
         ]);
 
+        // `created_at` ko `last_follow_up_date` me set kar rahe hain
+             $validated['last_follow_up_date'] = now();
         lead::create($validated);
         return redirect()->route('lead.index')->with('success','lead created successfully');
     }
@@ -368,4 +469,29 @@ class LeadController extends Controller implements HasMiddleware
 
     return response()->json($leads);
 }
+
+
+// export method
+
+public function export()
+{
+    return Excel::download(new LeadExport, 'leads-'.date('Y-m-d').'.xlsx');
+}
+
+// import method
+public function import(Request $request)
+{
+    $request->validate([
+        'file' => 'required|mimes:xlsx,xls'
+    ]);
+
+    try {
+        Excel::import(new LeadImport, $request->file('file'));
+        return back()->with('success', 'Leads imported successfully');
+    } catch (\Exception $e) {
+        return back()->with('error', 'Error importing leads: '.$e->getMessage());
+    }
+}
+
+
 }

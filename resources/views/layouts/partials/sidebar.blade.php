@@ -54,27 +54,7 @@
                                         </nav>
                                     </div>
                                     <!-- <a class="nav-link" href="{{url('admin/contact')}}">Open Vacancies</a> -->
-                                     @can('vacancie')
-                                    <a class="nav-link collapsed text-black" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
-                                  <div style="font-size: 14px; transform: 0.3;" onmouseover="this.style.color='red'" onmouseout="this.style.color='black'"> Vacancies </div>
-                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                    </a>
-                                    @endcan
-                                    <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
-                                        <nav class="sb-sidenav-menu-nested nav">
-                                        @can('view openvacancie')
-                                            <a class="nav-link text-black" style="font-size:13px;" href="{{url('admin/openvacancie')}}">Open Vacancy</a>
-                                            @endcan
-                                            @can('view freshers')
-                                            <a class="nav-link text-black" style="font-size:13px;" href="{{url('admin/fresher')}}">Fresher</a>
-                                            @endcan
 
-                                            @can('view experiences')
-                                            <a class="nav-link text-black" style="font-size:14px;" href="{{url('admin/experience')}}">Experience</a>
-                                            @endcan
-                                            <!-- <a class="nav-link" href="404.html">Create Vacancy</a> -->
-                                        </nav>
-                                    </div>
                                 </nav>
                             </div>
                             <!-- <div class="sb-sidenav-menu-heading">Addons</div>
@@ -88,7 +68,7 @@
                             </a> -->
 
                             <!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
-                             <!-- "manage leads" permission ke liye -->
+     @can('Lead')                        <!-- "manage leads" permission ke liye -->
     <a class="nav-link collapsed text-black" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLead" aria-expanded="false" aria-controls="collapseLead">
         <img src="/admin/images/admin_logo/lead.png" style="height:7%; width:11%; margin:7px;" alt="lead logo">
 
@@ -104,9 +84,14 @@
 
 
          <!-- "view leads" permission ke liye -->
+          @can('Add Lead')
          <a class="nav-link text-black" style="font-size:14px;" href="{{ url('admin/lead/create') }}"> <i class="fa-solid fa-plus"> </i>  &nbsp Add Lead</a>
-                    <a class="nav-link text-black" style="font-size:14px;" href="{{ url('admin/lead/index') }}">All Leads</a>
-                    <a class="nav-link text-black" style="font-size:14px;" href="{{ url('admin/lead/index') }}">Closed Leads</a>
+         @endcan
+         @can('own leads')
+        <a class="nav-link text-black" style="font-size:14px;" href="{{ url('admin/lead/index') }}">All Leads</a>
+
+        @endcan
+
 
 
          <!-- "import leads" permission ke liye -->
@@ -118,14 +103,17 @@
 
     </nav>
 </div>
+@endcan
 
 <!-- Leads Master Section -->
+ @can('lead master')
 <a class="nav-link collapsed text-black" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLeadsMaster" aria-expanded="false" aria-controls="collapseLeadsMaster">
     <!-- <img src="/admin/images/admin_logo/leads_master.png" style="height:7%; width:11%; margin:7px;" alt="leads master logo"> -->
     <div style="font-size: 15px; transition: 0.3s;" onmouseover="this.style.color='red'" onmouseout="this.style.color='black'">Leads Master</div>
     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
 </a>
-
+@endcan
+@can('View Lead master')
 <div class="collapse" id="collapseLeadsMaster" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
     <nav class="sb-sidenav-menu-nested nav">
         <a class="nav-link text-black" style="font-size:14px;" href="{{ url('admin/leads-master/source') }}"> <i class="fa-solid fa-plus"> </i>  &nbsp Add Source</a>
@@ -133,6 +121,7 @@
         <a class="nav-link text-black" style="font-size:14px;" href="{{ url('admin/leads-master/status') }}"><i class="fa-solid fa-plus"> </i>  &nbsp Add Status</a>
     </nav>
 </div>
+@endcan
 
                             <!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
 
@@ -168,6 +157,27 @@
                                     @endcan
                                     <!-- blog.drafts -->
                                     <!-- <a class="nav-link" href="#">Drafts</a> -->
+                                    @can('vacancie')
+                                    <a class="nav-link collapsed text-black" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
+                                  <div style="font-size: 14px; transform: 0.3;" onmouseover="this.style.color='red'" onmouseout="this.style.color='black'"> Vacancies </div>
+                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                    </a>
+                                    @endcan
+                                    <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                                        <nav class="sb-sidenav-menu-nested nav">
+                                        @can('view openvacancie')
+                                            <a class="nav-link text-black" style="font-size:13px;" href="{{url('admin/openvacancie')}}">Open Vacancy</a>
+                                            @endcan
+                                            @can('view freshers')
+                                            <a class="nav-link text-black" style="font-size:13px;" href="{{url('admin/fresher')}}">Fresher</a>
+                                            @endcan
+
+                                            @can('view experiences')
+                                            <a class="nav-link text-black" style="font-size:14px;" href="{{url('admin/experience')}}">Experience</a>
+                                            @endcan
+                                            <!-- <a class="nav-link" href="404.html">Create Vacancy</a> -->
+                                        </nav>
+                                    </div>
                                 </nav>
                             </div>
                             <!-- blog -->

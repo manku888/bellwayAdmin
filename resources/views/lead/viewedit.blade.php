@@ -11,11 +11,13 @@
         <!-- Use PUT for update -->
 
         <!-- Pencil Icon -->
+         @can('view-edit lead')
         <div class="text-end">
             <button type="button" id="editButton" class="btn btn-outline-secondary">
             <i class="fa-solid fa-pen   "></i>
             </button>
         </div>
+        @endcan
 
         <!-- Row 1 -->
         <div class="row mb-3 mt-2">

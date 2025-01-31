@@ -69,13 +69,19 @@
 
 
 <!-- nav bar Import , export, search -->
+
        <div class="d-flex justify-content-between align-items-center position-fixed  bg-light p-2 rounded " style="width:81vw; top: 55px; z-index: 1000;">
-        <button type="button" class="btn btn-outline-secondary hover:bg-black">
+
+            <button type="button" class="btn btn-outline-secondary hover:bg-black" onclick="window.location.href='{{ route('leads.export') }}'">
             <i class="fa-solid fa-file-export"></i> Export
         </button>
-        <button type="button" class="btn btn-outline-secondary hover:bg-black">
+
+        <button type="button" class="btn btn-outline-secondary hover:bg-black" data-bs-toggle="modal" data-bs-target="#importModal">
             <i class="fa-solid fa-file-import"></i> Import
         </button>
+
+
+
         <!-- TODO last month this month last year custom range -->
         <select id="dateFilter" class="form-select w-25">
             <option value="">Filter by Date</option>
@@ -231,92 +237,109 @@
             </script>
         </div>
 
-        <a href="{{ route('lead.create') }}" class="btn btn-primary btn-sm">
+        @can('Add Lead')
+        <a href="{{ route('lead.create') }}" class="btn btn-outline-primary btn-sm">
             <i class="fa-solid fa-plus"></i> Add New Lead
         </a>
+        @endcan
         <button class="btn btn-outline-secondary" id="filter">
             <i class="fa-solid fa-filter"></i> Filters
         </button>
     </div>
 
-    <!-- filter side bar -->
-     <!-- Filter Bar -->
+  <!-- filter side bar -->
+<div class="filter-bar h-100 position-fixed p-4 overflow-scroll" id="filterBar"
+    style="width:30vw; top: 0; right: -30vw; z-index: 9999; background-color: rgb(250, 250, 250, 0.7);
+ backdrop-filter: blur(15px); border-top-left-radius: 10px; border-bottom-right-radius: 10px;">
 
-    <div class="filter-bar h-100 position-fixed p-4 overflow-scroll" id="filterBar"
-        style="width:30vw; top: 0; right: -30vw; z-index: 9999; background-color: rgb(250, 250, 250, 0.7);
-     backdrop-filter: blur(15px); border-top-left-radius: 10px; border-bottom-right-radius: 10px;">
+    <div class="filter-bar-header d-flex justify-content-between align-items-center">
+        <h5>Filters</h5>
+        <button class="btn-close bg-white p-2" id="closeFilterBar"></button>
+    </div>
 
-        <div class="filter-bar-header d-flex justify-content-between align-items-center">
-            <h5>Filters</h5>
-            <button class="btn-close bg-white p-2" id="closeFilterBar"></button>
+    <!-- Filter Form -->
+    <form action="{{ route('lead.index') }}" method="GET" class="mt-3">
+        <!-- Assignee -->
+        <div class="mb-3">
+            <label for="assignee" class="form-label">Assignee</label>
+            <select class="form-control" id="assignee" name="assignee">
+                <option value="">Select Assignee</option>
+                @foreach($assignees as $assignee)
+                    <option value="{{ $assignee }}" {{ request('assignee') == $assignee ? 'selected' : '' }}>{{ $assignee }}</option>
+                @endforeach
+            </select>
         </div>
 
-        <!-- Filter Form -->
-        <form action="" class="mt-3">
-            <!-- Assignee -->
-            <div class="mb-3">
-                <label for="assignee" class="form-label">Assignee</label>
-                <input type="text" class="form-control" id="assignee" placeholder="Enter assignee's name">
-            </div>
+        <!-- Created Date -->
+        <!-- <div class="mb-3">
+            <label for="createdDate" class="form-label">Created Date</label>
+            <input type="date" class="form-control" id="createdDate" name="createdDate" value="{{ request('createdDate') }}">
+        </div> -->
 
-            <!-- Created Date -->
-            <div class="mb-3">
-                <label for="createdDate" class="form-label">Created Date</label>
-                <input type="date" class="form-control" id="createdDate">
-            </div>
+        <!-- Service -->
+        <div class="mb-3">
+            <label for="service" class="form-label">Service</label>
+            <select class="form-control" id="service" name="service">
+                <option value="">Select Service</option>
+                @foreach($servicess as $service)
+                    <option value="{{ $service }}" {{ request('service') == $service ? 'selected' : '' }}>{{ $service }}</option>
+                @endforeach
+            </select>
+        </div>
 
-            <!-- Service -->
-            <div class="mb-3">
-                <label for="service" class="form-label">Service</label>
-                <input type="text" class="form-control" id="service" placeholder="Enter service type">
-            </div>
+        <!-- Source -->
+        <div class="mb-3">
+            <label for="source" class="form-label">Source</label>
+            <select class="form-control" id="source" name="source">
+                <option value="">Select Source</option>
+                @foreach($sourcess as $source)
+                    <option value="{{ $source }}" {{ request('source') == $source ? 'selected' : '' }}>{{ $source }}</option>
+                @endforeach
+            </select>
+        </div>
 
-            <!-- Source -->
-            <div class="mb-3">
-                <label for="source" class="form-label">Source</label>
-                <input type="text" class="form-control" id="source" placeholder="Enter source">
-            </div>
+        <!-- City -->
+        <div class="mb-3">
+            <label for="city" class="form-label">City</label>
+            <input type="text" class="form-control" id="city" name="city" placeholder="Enter city" value="{{ request('city') }}">
+        </div>
 
-            <!-- City -->
-            <div class="mb-3">
-                <label for="city" class="form-label">City</label>
-                <input type="text" class="form-control" id="city" placeholder="Enter city">
-            </div>
+        <!-- Follow-up Date -->
+        <!-- <div class="mb-3">
+            <label for="followUpDate" class="form-label">Follow-up Date</label>
+            <input type="date" class="form-control" id="followUpDate" name="followUpDate" value="{{ request('followUpDate') }}">
+        </div> -->
 
-            <!-- Follow-up Date -->
-            <div class="mb-3">
-                <label for="followUpDate" class="form-label">Follow-up Date</label>
-                <input type="date" class="form-control" id="followUpDate">
-            </div>
+        <!-- Follow-up Status -->
+        <!-- <div class="mb-3">
+            <label for="followUpStatus" class="form-label">Follow-up Status</label>
+            <select class="form-control" id="followUpStatus" name="followUpStatus">
+                <option value="">Select status</option>
+                <option value="pending" {{ request('followUpStatus') == 'pending' ? 'selected' : '' }}>pending</option>
+                <option value="completed" {{ request('followUpStatus') == 'completed' ? 'selected' : '' }}>done</option>
+                <option value="in-progress" {{ request('followUpStatus') == 'in-progress' ? 'selected' : '' }}>up-comming</option>
+            </select>
+        </div> -->
 
-            <!-- Follow-up Status -->
-            <div class="mb-3">
-                <label for="followUpStatus" class="form-label">Follow-up Status</label>
-                <select class="form-control" id="followUpStatus">
-                    <option value="">Select status</option>
-                    <option value="pending">Pending</option>
-                    <option value="completed">Completed</option>
-                    <option value="in-progress">In Progress</option>
-                </select>
-            </div>
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
+        <a href="{{ route('lead.index') }}" class="btn btn-secondary w-100 mt-2">Clear Filters</a>
+    </form>
 
-            <!-- Submit Button -->
-            <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
-        </form>
+    <!-- Script for opening and closing the filter bar -->
+    <script>
+        document.getElementById('filterBar').style.transition = 'right 0.5s ease-in-out';
 
-        <!-- Script for opening and closing the filter bar -->
-        <script>
-            document.getElementById('filterBar').style.transition = 'right 0.5s ease-in-out';
+        document.getElementById('filter').addEventListener('click', function() {
+            document.getElementById('filterBar').style.right = '0';
+        });
 
-            document.getElementById('filter').addEventListener('click', function() {
-                document.getElementById('filterBar').style.right = '0';
-            });
+        document.getElementById('closeFilterBar').addEventListener('click', function() {
+            document.getElementById('filterBar').style.right = '-30vw';
+        });
+    </script>
+</div>
 
-            document.getElementById('closeFilterBar').addEventListener('click', function() {
-                document.getElementById('filterBar').style.right = '-30vw';
-            });
-        </script>
-    </div>
 
         <!-- Table -->
 <div class="table-responsive" style="margin-top: 70px;">
@@ -324,23 +347,25 @@
     <table class="custom-table table table-striped table-bordered text-nowrap" id="table">
         <thead class="bg-light">
             <tr class="text-center">
-                <th>Assignee</th>
-                <th>S.NO.</th>
-                <th>Source</th>
-                <th>Created Date</th>
-                <th>Services</th>
-                <th>Budget</th>
-                <th>Full Name</th>
-                <th>Phone Number</th>
-                <th>City</th>
-                <th>Email</th>
-                <th style="width: 400px;">Last Follow Date & Time</th>
-                <th>Status</th>
-                <th class="upcoming-column">Follow-Up Date & Time</th>
-                <th>Description</th>
-                <th>Follow Up Status</th>
-                <th>Action</th>
-                <th>History</th>
+                <th class="text-center">Assignee</th>
+                <th class="text-center">S.NO.</th>
+                <th class="text-center">Source</th>
+                <th class="text-center">Created Date</th>
+                <th class="text-center">Services</th>
+                <th class="text-center">Budget</th>
+                <th class="text-center">Full Name</th>
+                <th class="text-center">Phone Number</th>
+                <th class="text-center">City</th>
+                <th class="text-center">Email</th>
+                <th class="text-center" style="width: 400px;">Last Follow Date & Time</th>
+                <th class="text-center">Status</th>
+                <th class="upcoming-column text-center ">Follow-Up Date & Time</th>
+                <th class="text-center">Description</th>
+                <th class="text-center">Follow Up Status</th>
+                <th class="text-center">Action</th>
+                @can('history lead')
+                <th class="text-center">History</th>
+                @endcan
             </tr>
         </thead>
         <tbody>
@@ -350,33 +375,38 @@
             @foreach($leads as $lead)
             <tr  class="{{ $loop->odd ? 'bg-white' : 'custom-bg-offwhite' }} ">
                 <td class="assignee">
-                    <span class="badge rounded-pill bg-success" >
+                    <span class="badge rounded-pill bg-success" style="width: 100px;" >
                         {{ $lead->assignee }}
                     </span>
                 </td>
 
                 <td class="text-center">{{ $sno++ }}</td>
-                <td class="source badge" style="background-color: {{ $sources[$lead->source] ?? '#fafafa' }}; ">
-                        {{ $lead->source }}
-               </td>
+                <td class="source">
+                        <span class="badge rounded-pill " style='width: 100px; background-color: {{ $sources[$lead->source] ?? '#ecb8ff' }}; '>
+                            {{ $lead->source }}
+                        </span>
+                    </td>
                 <td>{{date('d-m-Y g:i A',strtotime( $lead->created_at))}}</td>
 
 
-                <td class="service badge" style="background-color: {{ $services[$lead->service] ?? '#fafafa' }}; ">
-                        {{ $lead->service }}
-               </td>
+                <td>
+                        <span class="service badge rounded-pill" style="width: 100px;  background-color: {{ $services[$lead->service] ?? '#7bb8f9' }};">
+                            {{ $lead->service }}
+                        </span>
+                    </td>
                 <td>{{ $lead->budget }}</td>
                 <td class="fullname">{{ $lead->full_name }}</td>
                 <td class="phonenumber">{{ $lead->phone_number }}</td>
                 <td class="city">{{ $lead->city }}</td>
                 <td class="email">{{ $lead->email }}</td>
                 <td>{{date('d-m-Y g:i A', strtotime( $lead->created_at))}}</td>
-                <td class="status badge" style="background-color: {{ $statuses[$lead->status] ?? '#fafafa' }}; ">
-
-                        {{ $lead->status }}
-                </td>
+                <td>
+                        <span class="status badge rounded-pill" style="width: 100px;  background-color: {{ $statuses[$lead->status] ?? '#e65656' }}; ">
+                            {{ $lead->status }}
+                        </span>
+                    </td>
                 <td class="text-center">
-                <span>
+                <span >
                      {{ $lead->follow_up_date ? \Carbon\Carbon::parse($lead->follow_up_date)->setTimezone('Asia/Kolkata')->format('d-m-Y g:i A') : '' }}
                 </span>
 
@@ -394,9 +424,9 @@
 
 
                     @if ($lead->follow_up_date > now())
-                    <span class="badge rounded-pill bg-danger" >up-comming</span>
+                    <span class="badge rounded-pill bg-danger" style="width: 100px;" >up-comming</span>
                     @else
-                    <span class="badge rounded-pill bg-warning" >pending</span>
+                    <span class="badge rounded-pill bg-warning" style="width: 100px;">pending</span>
                     @endif
 
 
@@ -411,12 +441,14 @@
 
                                                                <!-- Button trigger modal -->
                                                               <!-- Trigger Button -->
+                                     @can('edit lead')
                                     <a type="button"  data-bs-toggle="modal" data-bs-target="#exampleModal"
                                     data-id="{{ $lead->id }}" data-service="{{ $lead->service }}"
                                     data-description="{{ $lead->description }}"follow_up_date="{{ $lead->follow_up_date }}"
                                     data-status="{{ $lead->status }}">
                                         <i class="fa-solid fa-pen text-primary"></i>
                                     </a>
+                                    @endcan
 
                         <!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>edit>>>>>>>>>>>>>>>>>>>>>>>>>> -->
 
@@ -429,6 +461,7 @@
                         <!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>eye>>>>>>>>>>>>>>>>>>>>>>>>>> -->
 
                         <!-- delete -->
+                         @can('Delete Lead')
                         <form action="{{route('lead.destroy',$lead->id)}}" method="post" >
                             @csrf
                             @method('delete')
@@ -437,6 +470,7 @@
                                      <i class="fa-solid fa-trash " style="color: red;"></i>
                             </button>
                          </form>
+                         @endcan
 
 
 
@@ -444,11 +478,14 @@
 
                     </div>
                 </td>
+                <!-- history -->
+                 @can('history lead')
                 <td class="text-center">
                     <a href="{{route('lead.history',$lead->id)}}" >
                          <i class="fa-solid fa-clock-rotate-left text-success"> </i>
                      </a>
                 </td>
+                @endcan
             </tr>
 
 
@@ -464,6 +501,36 @@
     </table>
 
 </div>
+
+<!-- import export model -->
+
+<!-- Import Modal -->
+<div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="importModalLabel">Import Leads</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ route('leads.import') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="file" class="form-label">Choose Excel File</label>
+                        <input type="file" class="form-control" name="file" required accept=".xlsx,.xls">
+                        <div class="form-text">Download the <a href="{{ route('leads.export') }}">template</a> for reference</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Import</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
 
  <!-- Pagination -->
  <div class="d-flex justify-content-center mt-3">
@@ -508,16 +575,16 @@
           <!-- Hidden Lead ID -->
           <input type="hidden" id="lead_id" name="lead_id" value="">
 
+
           <!-- Services Field -->
-          <div class="mb-3">
-            <label for="services" class="form-label">Service</label>
-            <select class="form-control" id="services" name="service">
-                <option value="Consultation">Consultation</option>
-                <option value="Development">Development</option>
-                <option value="Support">Support</option>
-                <option value="Marketing">Marketing</option>
-            </select>
-          </div>
+<div class="mb-3">
+    <label for="services" class="form-label">Service</label>
+    <select class="form-control" id="services" name="service">
+        @foreach ($services as $name => $color)
+            <option value="{{ $name }}" data-color="{{ $color }}">{{ $name }}</option>
+        @endforeach
+    </select>
+</div>
 
           <!-- Descriptions Field -->
           <div class="mb-3">
@@ -533,21 +600,13 @@
 
           <!-- Status Field -->
           <div class="mb-3">
-            <label for="status" class="form-label">Status</label>
-            <select class="form-control" id="status" name="status">
-                <option value="enquiry">enquiry</option>
-                <option value="npc">npc</option>
-                <option value="not">not</option>
-                <option value="fake">fake</option>
-                <option value="interested">interested</option>
-                <option value="closedwith">closedwith</option>
-                <option value="language">language</option>
-                <option value="low">low</option>
-                <option value="caf">caf</option>
-                <option value="postponed">postponed</option>
-                <option value="closed">closed</option>
-            </select>
-          </div>
+    <label for="status" class="form-label">Status</label>
+    <select class="form-control" id="status" name="status">
+        @foreach ($statuses as $name => $color)
+            <option value="{{ $name }}" data-color="{{ $color }}">{{ $name }}</option>
+        @endforeach
+    </select>
+</div>
 
           <!-- Submit Button -->
           <div class="modal-footer">

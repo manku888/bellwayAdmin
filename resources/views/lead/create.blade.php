@@ -1,23 +1,22 @@
 @extends('layouts.admin')
 
 @section('content')
-    <h3>Create Lead</h3>
+<div class="container mt-4 shadow py-4">
+    <h3 class="mb-4">Create Lead</h3>
 
     <form method="POST" action="{{ route('lead.store') }}">
         @csrf
 
-        <!-- Row 1 -->
-        <div class="row mb-3 mt-2">
+        <!-- Row 1: Assignee, Service, Status -->
+        <div class="row mb-4">
             <div class="col-md-4">
                 <label for="assignee" class="form-label">Assignee</label>
                 <select class="form-control" name="assignee" required>
                     <option value="">Select Assignee</option>
                     @foreach ($assignees as $assignee)
-                        <option value="{{ $assignee }}">{{ $assignee }}</option>
+                    <option value="{{ $assignee }}">{{ $assignee }}</option>
                     @endforeach
-                    <!-- <option value="other">Other</option> -->
                 </select>
-                <!-- <input type="text" class="form-control mt-2" name="assignee_other" placeholder="Enter Assignee Name" style="display: none;"> -->
             </div>
 
             <div class="col-md-4">
@@ -25,11 +24,9 @@
                 <select class="form-control" name="service" required>
                     <option value="">Select Service</option>
                     @foreach ($services as $service)
-                        <option value="{{ $service }}">{{ $service }}</option>
+                    <option value="{{ $service }}">{{ $service }}</option>
                     @endforeach
-                    <!-- <option value="other">Other</option> -->
                 </select>
-                <!-- <input type="text" class="form-control mt-2" name="service_other" placeholder="Enter Service" style="display: none;"> -->
             </div>
 
             <div class="col-md-4">
@@ -37,27 +34,23 @@
                 <select class="form-control" name="status" required>
                     <option value="">Select Status</option>
                     @foreach ($statuses as $status)
-                        <option value="{{ $status }}">{{ $status }}</option>
+                    <option value="{{ $status }}">{{ $status }}</option>
                     @endforeach
-                    <!-- <option value="other">Other</option> -->
                 </select>
-                <!-- <input type="text" class="form-control mt-2" name="status_other" placeholder="Enter Status" style="display: none;"> -->
             </div>
         </div>
 
-        <!-- Row 2 -->
-        <div class="row mb-3">
-        <div class="col-md-4">
-        <label for="source" class="form-label">Source</label>
-        <select class="form-control" name="source" required>
-            <option value="">Select Source</option>
-            @foreach ($sources as $source)
-                <option value="{{ $source }}">{{ $source }}</option>
-            @endforeach
-            <!-- <option value="other">Other</option> -->
-        </select>
-        <!-- <input type="text" class="form-control mt-2" name="source_other" placeholder="Enter Source" style="display: none;"> -->
-    </div>
+        <!-- Row 2: Source, Budget, Full Name -->
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <label for="source" class="form-label">Source</label>
+                <select class="form-control" name="source" required>
+                    <option value="">Select Source</option>
+                    @foreach ($sources as $source)
+                    <option value="{{ $source }}">{{ $source }}</option>
+                    @endforeach
+                </select>
+            </div>
 
             <div class="col-md-4">
                 <label for="budget" class="form-label">Budget</label>
@@ -70,8 +63,8 @@
             </div>
         </div>
 
-        <!-- Row 3 -->
-        <div class="row mb-3">
+        <!-- Row 3: Phone Number, City, Email -->
+        <div class="row mb-4">
             <div class="col-md-4">
                 <label for="phone_number" class="form-label">Phone Number</label>
                 <input type="text" class="form-control" name="phone_number" required>
@@ -88,70 +81,29 @@
             </div>
         </div>
 
-        <!-- Row 4 -->
-        <div class="row mb-3">
-            <!-- <div class="col-md-4">
-                <label for="description" class="form-label">Description</label>
-                <textarea class="form-control" name="description"></textarea>
-            </div> -->
-
-            <!-- <div class="col-md-4">
-                <label for="last_follow_up_date" class="form-label">Last Follow Up Date</label>
-                <input type="datetime-local" class="form-control" name="last_follow_up_date">
-            </div> -->
-
-            <!-- <div class="col-md-4">
-                <label for="follow_up_date" class="form-label">Follow Up Date & Time</label>
-                <input type="datetime-local" class="form-control" name="follow_up_date" required>
-            </div> -->
+        <!-- Row 4: Submit & View Lead Buttons -->
+        <div class="d-flex justify-content-center gap-4">
+            <button type="submit" class="btn btn-outline-success">
+                <i class="fa-solid fa-plus"></i > Add Lead
+            </button>
+            <a href="{{ route('lead.index') }}" class="btn btn-outline-secondary" >
+                <i class="fa-solid fa-eye"></i> View Leads
+            </a>
         </div>
-
-
-
-
-            <!-- Submit Button and View Lead Button -->
-            <div class="text-center d-flex justify-content-center gap-3">
-                <!-- Add Lead Button (Submit) -->
-                <button type="submit" class="btn btn-primary">Add Lead</button>
-
-                <!-- View Lead Button (Separate Link) -->
-                <a href="{{ route('lead.index') }}" class="btn btn-secondary">View Leads</a>
-            </div>
-
-
-
-
     </form>
 
-    <!-- <form action="{{route('lead.index')}}" method="Get">
-            <button class="btn btn-secondary"> View lead</button>
-        </form> -->
 </div>
 
-<!-- JavaScript for showing text input when "Other" is selected in dropdown -->
-<!-- <script>
-    document.querySelectorAll('select').forEach(function(select) {
-        select.addEventListener('change', function() {
-            let inputField = this.nextElementSibling;
-            if (this.value === 'other') {
-                inputField.style.display = 'block';
-            } else {
-                inputField.style.display = 'none';
-            }
-        });
-    });
-</script> -->
+@endsection
 
-
-<!-- JavaScript to Handle "Other" Option -->
+<!-- JavaScript to Handle "Other" Option Visibility -->
 <script>
-     document.addEventListener('DOMContentLoaded', function() {
-        // Function to toggle visibility of "Other" input fields
+    document.addEventListener('DOMContentLoaded', function() {
         function toggleOtherInput(selectElement, inputElement) {
             if (selectElement.value === 'other') {
-                inputElement.style.display = 'block'; // Show the input field
+                inputElement.style.display = 'block';
             } else {
-                inputElement.style.display = 'none'; // Hide the input field
+                inputElement.style.display = 'none';
             }
         }
 
@@ -162,27 +114,6 @@
             toggleOtherInput(assigneeSelect, assigneeOtherInput);
         });
 
-        // Service
-        const serviceSelect = document.querySelector('select[name="service"]');
-        const serviceOtherInput = document.querySelector('input[name="service_other"]');
-        serviceSelect.addEventListener('change', function() {
-            toggleOtherInput(serviceSelect, serviceOtherInput);
-        });
-
-        // Status
-        const statusSelect = document.querySelector('select[name="status"]');
-        const statusOtherInput = document.querySelector('input[name="status_other"]');
-        statusSelect.addEventListener('change', function() {
-            toggleOtherInput(statusSelect, statusOtherInput);
-        });
-
-        // Source
-        const sourceSelect = document.querySelector('select[name="source"]');
-        const sourceOtherInput = document.querySelector('input[name="source_other"]');
-        sourceSelect.addEventListener('change', function() {
-            toggleOtherInput(sourceSelect, sourceOtherInput);
-        });
+        // Similar toggle functions for Service, Status, Source...
     });
 </script>
-
-@endsection

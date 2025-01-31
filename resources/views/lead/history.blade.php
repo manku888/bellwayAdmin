@@ -83,7 +83,7 @@
                 </td> -->
 
                 <td >
-                            <span class="badge rounded-pill bg-success">{{$leadhistory->follow_up}}
+                            <span class="badge rounded-pill bg-success" style="width: 100px;">{{$leadhistory->follow_up}}
                         </span>
                         </td>
             </tr>

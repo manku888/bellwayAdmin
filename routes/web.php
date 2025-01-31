@@ -129,6 +129,12 @@ Route::middleware('auth')->group(function () {
         Route::post('/leads-master/store', [LeadsMasterController::class, 'store'])->name('leads-master.store');
         Route::get('/leads-master/toggle-status/{id}', [LeadsMasterController::class, 'toggleStatus'])->name('leads-master.toggleStatus');
         Route::delete('/leads-master/delete/{id}', [LeadsMasterController::class, 'destroy'])->name('leads-master.destroy');
+
+
+
+        // export import
+        Route::get('/leads/export', [LeadController::class, 'export'])->name('leads.export');
+        Route::post('/leads/import', [LeadController::class, 'import'])->name('leads.import');
     });
 
 
