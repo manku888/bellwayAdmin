@@ -1,42 +1,42 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="container">
-    <h3>Call-Requests</h3>
+<div class="container mt-4">
+    <h3 class="mb-4">Call-Requests</h3>
 
     @if(session('success'))
-<div class="alert alert-success alert-dismissible fade show" role="alert" id="success-alert">
-    {{ session('success') }}
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-@endif
-
-    <table class="custom-table">
-        <thead>
-            <tr>
-                <th>S/N.</th>
-                <th>Full Name</th>
-                <th>City</th>
-                <th>Phone</th>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Message</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($calldatas as $calldata)
+    <div class="alert alert-success alert-dismissible fade show" role="alert" id="success-alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
+    <div class="table-responsive">
+        <table class="custom-table table table-striped table-bordered text-nowrap" style="background-color: whitesmoke;">
+            <thead class="bg-light text-center">
                 <tr>
+                    <th>S/N.</th>
+                    <th>Full Name</th>
+                    <th>City</th>
+                    <th>Phone</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Message</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($calldatas as $calldata)
+                <tr style="background-color: white;">
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $calldata->name }}</td>
                     <td>{{ $calldata->city }}</td>
                     <td>{{ $calldata->phone_no }}</td>
                     <td>{{ $calldata->date }}</td>
                     <td>{{ $calldata->time }}</td>
-                    <td style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 200px;">{{ $calldata->message }}</td>
+                    <td style=" overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 200px;">{{ $calldata->message }}</td>
                     <td style="text-align: center;">
                         <button
-                            class="btn btn-primary btn-sm view-call-btn"
+                            class="btn btn-sm view-call-btn"
                             data-name="{{ $calldata->name }}"
                             data-city="{{ $calldata->city }}"
                             data-phone_no="{{ $calldata->phone_no }}"
@@ -49,18 +49,20 @@
                         <!-- delete -->
                         @can('delete callrequest')
                         <form action="{{ url('admin/call/delete', $calldata->id) }}" method="POST" style="display: inline-block;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn  btn-sm" onclick="return confirm('Are you sure you want to delete this hiring data?')">
-                            <i class="fa-solid fa-trash " style="color: red;"></i>
-                        </button>
-                    </form>
-                    @endcan
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn  btn-sm" onclick="return confirm('Are you sure you want to delete this hiring data?')">
+                                <i class="fa-solid fa-trash " style="color: red;"></i>
+                            </button>
+                        </form>
+                        @endcan
                     </td>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
+                @endforeach
+            </tbody>
+        </table>
+
+    </div>
     <div class="d-flex justify-content-end mt-3 ">
         {{$calldatas->links()}}
     </div>
@@ -93,12 +95,12 @@
 @endsection
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         // Get all "view" buttons
         const viewButtons = document.querySelectorAll('.view-call-btn');
 
         viewButtons.forEach(button => {
-            button.addEventListener('click', function () {
+            button.addEventListener('click', function() {
                 // Get data attributes from the clicked button
                 const name = this.getAttribute('data-name');
                 const city = this.getAttribute('data-city');
@@ -122,8 +124,8 @@
         });
     });
 
-     // script for success msg close Automatically after 5 seconds
-     setTimeout(function() {
+    // script for success msg close Automatically after 5 seconds
+    setTimeout(function() {
         let successAlert = document.getElementById('success-alert');
         if (successAlert) {
             successAlert.style.display = 'none';

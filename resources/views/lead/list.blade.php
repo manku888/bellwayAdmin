@@ -67,155 +67,29 @@
     });
 </script>
 
-
-<!-- nav bar Import , export, search -->
-
-       <div class="d-flex justify-content-between align-items-center position-fixed  bg-light p-2 rounded " style="width:81vw; top: 55px; z-index: 1000;">
-
-            <button type="button" class="btn btn-outline-secondary hover:bg-black" onclick="window.location.href='{{ route('leads.export') }}'">
-            <i class="fa-solid fa-file-export"></i> Export
-        </button>
-
-        <button type="button" class="btn btn-outline-secondary hover:bg-black" data-bs-toggle="modal" data-bs-target="#importModal">
-            <i class="fa-solid fa-file-import"></i> Import
-        </button>
-
-
-
-        <!-- TODO last month this month last year custom range -->
-        <select id="dateFilter" class="form-select w-25">
-            <option value="">Filter by Date</option>
-            <option value="today">Today</option>
-            <option value="last30days">Last 30 Days</option>
-            <option value="last90days">Last 90 Days</option>
-            <option value="last6months">Last 6 Months</option>
-            <option value="lastmonth">Last Month</option>
-            <option value="thismonth">This Month</option>
-            <option value="lastyear">Last Year</option>
-            <!-- <option value="customrange">Custom Range</option> -->
-        </select>
-        <!-- created date filter -->
-        <script>
-            document.getElementById('dateFilter').addEventListener('change', function() {
-                const filterValue = this.value;
-                const rows = document.querySelectorAll('#table tbody tr');
-                const today = new Date();
-                const last30Days = getPastDate(30);
-                const last90Days = getPastDate(90);
-                const last6Months = getPastDate(180);
-                const firstOfThisMonth = getFirstOfThisMonth();
-                const firstOfLastMonth = getFirstOfLastMonth();
-                const lastOfLastMonth = getLastOfLastMonth();
-                const firstOfLastYear = getFirstOfLastYear();
-                const lastOfLastYear = getLastOfLastYear();
-
-                console.log(`%c Selected Filter: ${filterValue}`, "background: green; color: white; padding: 5px; border-radius: 5px;");
-
-                rows.forEach(row => {
-                    const createdAtCell = row.querySelector('td:nth-child(4)');
-                    if (!createdAtCell) return;
-
-                    const rowDate = createdAtCell.textContent.trim().split(" ")[0];
-                    let showRow = false;
-
-                    switch (filterValue) {
-                        case "today":
-                            showRow = rowDate === formatDate(today);
-                            console.log("Showing results of today:", formatDate(today));
-                            break;
-                        case "last30days":
-                            showRow = isWithinRange(rowDate, last30Days);
-                            console.log("Last 30 Days:", formatDate(last30Days), "to", formatDate(today));
-                            break;
-                        case "last90days":
-                            showRow = isWithinRange(rowDate, last90Days);
-                            console.log("Last 90 Days:", formatDate(last90Days), "to", formatDate(today));
-                            break;
-                        case "last6months":
-                            showRow = isWithinRange(rowDate, last6Months);
-                            console.log("Last 180 Days:", formatDate(last6Months), "to", formatDate(today));
-                            break;
-                        case "thismonth":
-                            showRow = isWithinRange(rowDate, firstOfThisMonth);
-                            console.log("This Month:", formatDate(firstOfThisMonth), "to", formatDate(today));
-                            break;
-                        case "lastmonth":
-                            showRow = isWithinRange(rowDate, firstOfLastMonth, lastOfLastMonth);
-                            console.log("Last Month:", formatDate(firstOfLastMonth), "to", formatDate(lastOfLastMonth));
-                            break;
-                        case "lastyear":
-                            showRow = isWithinRange(rowDate, firstOfLastYear, lastOfLastYear);
-                            console.log("Last Year:", formatDate(firstOfLastYear), "to", formatDate(lastOfLastYear));
-                            break;
-                    }
-
-                    row.style.display = showRow ? '' : 'none';
-                });
-            });
-
-            // ✅ Function to format a Date object as "DD-MM-YYYY"
-            function formatDate(date) {
-                if (!(date instanceof Date)) return date; // Ensure date is a Date object
-                const day = String(date.getDate()).padStart(2, '0');
-                const month = String(date.getMonth() + 1).padStart(2, '0');
-                const year = date.getFullYear();
-                return `${day}-${month}-${year}`;
-            }
-
-            // ✅ Function to get past date as a Date object
-            function getPastDate(days) {
-                const date = new Date();
-                date.setDate(date.getDate() - days);
-                return date;
-            }
-
-            // ✅ Function to get first day of this month
-            function getFirstOfThisMonth() {
-                return new Date(new Date().getFullYear(), new Date().getMonth(), 1);
-            }
-
-            // ✅ Function to get first day of last month
-            function getFirstOfLastMonth() {
-                return new Date(new Date().getFullYear(), new Date().getMonth() - 1, 1);
-            }
-
-            // ✅ Function to get last day of last month
-            function getLastOfLastMonth() {
-                return new Date(new Date().getFullYear(), new Date().getMonth(), 0);
-            }
-
-            // ✅ Function to get first day of last year
-            function getFirstOfLastYear() {
-                return new Date(new Date().getFullYear() - 1, 0, 1);
-            }
-
-            // ✅ Function to get last day of last year
-            function getLastOfLastYear() {
-                return new Date(new Date().getFullYear() - 1, 11, 31);
-            }
-
-            // ✅ Function to check if row date is within a given range
-            function isWithinRange(rowDate, startDate, endDate = new Date()) {
-                const [day, month, year] = rowDate.split("-").map(Number);
-                const rowDateObj = new Date(year, month - 1, day); // Convert "DD-MM-YYYY" to Date object
-
-                return rowDateObj >= startDate && rowDateObj <= endDate;
-            }
-        </script>
-
-        <div class="input-group w-25">
-            <span class="input-group-text">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </span>
-            <input type="search" id="searchInput" placeholder="Start typing to search" class="form-control">
+    <!-- nav bar Import , export, search -->
+    <div class="custom-div d-flex flex-column flex-md-row gap-2 justify-content-between align-items-center position-fixed p-2 rounded ">
+        <div class="col-12 col-md-6 col-lg-3">
+            <button type="button" class="btn btn-outline-secondary hover:bg-black" onclick="window.location.href='{{ route('leads.export')}}'">
+                <i class="fa-solid fa-file-export"></i> Export
+            </button>
+            <button type="button" class="btn btn-outline-secondary hover:bg-black" data-bs-toggle="modal" data-bs-target="#importModal">
+                <i class="fa-solid fa-file-import"></i> Import
+            </button>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+            <div class="input-group ">
+                <span class="input-group-text">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </span>
+                <input type="search" id="searchInput" placeholder="Start typing to search" class="form-control">
+            </div>
             <script>
-                //   global search
                 document.getElementById('searchInput').addEventListener('input', function() {
                     const searchQuery = this.value.toLowerCase(); // Get the search query
                     const rows = document.querySelectorAll('#table tbody tr'); // Select all rows
 
                     rows.forEach(row => {
-                        // Fetch the text content of the target columns
                         const assignee = row.querySelector('.assignee').textContent.toLowerCase();
                         const source = row.querySelector('.source').textContent.toLowerCase();
                         const service = row.querySelector('.service').textContent.toLowerCase();
@@ -226,31 +100,177 @@
                         const status = row.querySelector('.status').textContent.toLowerCase();
                         const statusfollowup = row.querySelector('.statusfollowup').textContent.toLowerCase();
 
-                        // Show/Hide the row based on the search query
                         if (assignee.includes(searchQuery) || source.includes(searchQuery) || service.includes(searchQuery) || fullname.includes(searchQuery) || phonenumber.includes(searchQuery) || city.includes(searchQuery) || email.includes(searchQuery) || status.includes(searchQuery) || statusfollowup.includes(searchQuery)) {
-                            row.style.display = ''; // Show the row
+                            row.style.display = '';
                         } else {
-                            row.style.display = 'none'; // Hide the row
+                            row.style.display = 'none';
                         }
                     });
                 });
             </script>
         </div>
+        <div class="col-12 col-md-6 col-lg-3">
+            <select id="dateFilter" class="form-select">
+                <option value="">Filter by Date</option>
+                <option value="today">Today</option>
+                <option value="last30days">Last 30 Days</option>
+                <option value="last90days">Last 90 Days</option>
+                <option value="last6months">Last 6 Months</option>
+                <option value="lastmonth">Last Month</option>
+                <option value="thismonth">This Month</option>
+                <option value="lastyear">Last Year</option>
+            </select>
+            <script>
+                document.getElementById('dateFilter').addEventListener('change', function() {
+                    const filterValue = this.value;
+                    const rows = document.querySelectorAll('#table tbody tr');
+                    const today = new Date();
+                    const last30Days = getPastDate(30);
+                    const last90Days = getPastDate(90);
+                    const last6Months = getPastDate(180);
+                    const firstOfThisMonth = getFirstOfThisMonth();
+                    const firstOfLastMonth = getFirstOfLastMonth();
+                    const lastOfLastMonth = getLastOfLastMonth();
+                    const firstOfLastYear = getFirstOfLastYear();
+                    const lastOfLastYear = getLastOfLastYear();
 
-        @can('Add Lead')
-        <a href="{{ route('lead.create') }}" class="btn btn-outline-primary btn-sm">
-            <i class="fa-solid fa-plus"></i> Add New Lead
-        </a>
-        @endcan
-        <button class="btn btn-outline-secondary" id="filter">
-            <i class="fa-solid fa-filter"></i> Filters
-        </button>
+                    console.log(`%c Selected Filter: ${filterValue}`, "background: green; color: white; padding: 5px; border-radius: 5px;");
+
+                    rows.forEach(row => {
+                        const createdAtCell = row.querySelector('td:nth-child(4)');
+                        if (!createdAtCell) return;
+
+                        const rowDate = createdAtCell.textContent.trim().split(" ")[0];
+                        let showRow = false;
+
+                        switch (filterValue) {
+                            case "today":
+                                showRow = rowDate === formatDate(today);
+                                console.log("Showing results of today:", formatDate(today));
+                                break;
+                            case "last30days":
+                                showRow = isWithinRange(rowDate, last30Days);
+                                console.log("Last 30 Days:", formatDate(last30Days), "to", formatDate(today));
+                                break;
+                            case "last90days":
+                                showRow = isWithinRange(rowDate, last90Days);
+                                console.log("Last 90 Days:", formatDate(last90Days), "to", formatDate(today));
+                                break;
+                            case "last6months":
+                                showRow = isWithinRange(rowDate, last6Months);
+                                console.log("Last 180 Days:", formatDate(last6Months), "to", formatDate(today));
+                                break;
+                            case "thismonth":
+                                showRow = isWithinRange(rowDate, firstOfThisMonth);
+                                console.log("This Month:", formatDate(firstOfThisMonth), "to", formatDate(today));
+                                break;
+                            case "lastmonth":
+                                showRow = isWithinRange(rowDate, firstOfLastMonth, lastOfLastMonth);
+                                console.log("Last Month:", formatDate(firstOfLastMonth), "to", formatDate(lastOfLastMonth));
+                                break;
+                            case "lastyear":
+                                showRow = isWithinRange(rowDate, firstOfLastYear, lastOfLastYear);
+                                console.log("Last Year:", formatDate(firstOfLastYear), "to", formatDate(lastOfLastYear));
+                                break;
+                        }
+
+                        row.style.display = showRow ? '' : 'none';
+                    });
+                });
+
+                function formatDate(date) {
+                    if (!(date instanceof Date)) return date; // Ensure date is a Date object
+                    const day = String(date.getDate()).padStart(2, '0');
+                    const month = String(date.getMonth() + 1).padStart(2, '0');
+                    const year = date.getFullYear();
+                    return `${day}-${month}-${year}`;
+                }
+
+                function getPastDate(days) {
+                    const date = new Date();
+                    date.setDate(date.getDate() - days);
+                    return date;
+                }
+
+                function getFirstOfThisMonth() {
+                    return new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+                }
+
+                function getFirstOfLastMonth() {
+                    return new Date(new Date().getFullYear(), new Date().getMonth() - 1, 1);
+                }
+
+                function getLastOfLastMonth() {
+                    return new Date(new Date().getFullYear(), new Date().getMonth(), 0);
+                }
+
+                function getFirstOfLastYear() {
+                    return new Date(new Date().getFullYear() - 1, 0, 1);
+                }
+
+                function getLastOfLastYear() {
+                    return new Date(new Date().getFullYear() - 1, 11, 31);
+                }
+
+                function isWithinRange(rowDate, startDate, endDate = new Date()) {
+                    const [day, month, year] = rowDate.split("-").map(Number);
+                    const rowDateObj = new Date(year, month - 1, day); // Convert "DD-MM-YYYY" to Date object
+
+                    return rowDateObj >= startDate && rowDateObj <= endDate;
+                }
+            </script>
+        </div>
+
+
+        <div class="last-buttons  ">
+            <a href="{{ route('lead.create') }}" class="btn btn-outline-primary">
+                <i class="fa-solid fa-plus"></i> Add New Lead
+            </a>
+            <button class="btn btn-outline-secondary " id="filter">
+                <i class="fa-solid fa-filter"></i> Filters
+            </button>
+        </div>
     </div>
+    <style>
+        .custom-div {
+            background-color: white;
+            width: 82%;
+            top: 55px;
+            z-index: 1000;
+        }
+
+        .table-responsive {
+            margin-top: 70px;
+        }
+
+        .last-buttons {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        @media screen and (max-width: 768px) {
+            .custom-div {
+                width: 88%;
+
+            }
+
+            .last-buttons {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .table-responsive {
+                margin-top: 200px;
+            }
+        }
+    </style>
 
   <!-- filter side bar -->
 <div class="filter-bar h-100 position-fixed p-4 overflow-scroll" id="filterBar"
-    style="width:30vw; top: 0; right: -30vw; z-index: 9999; background-color: rgb(250, 250, 250, 0.7);
- backdrop-filter: blur(15px); border-top-left-radius: 10px; border-bottom-right-radius: 10px;">
+style="top: 0; right: -100%; z-index: 9999; background-color: rgba(250, 250, 250, 0.7);
+    backdrop-filter: blur(15px); border-top-left-radius: 10px; border-bottom-right-radius: 10px;
+    width: 100%; max-width: 400px; transition: right 0.5s ease-in-out;">
 
     <div class="filter-bar-header d-flex justify-content-between align-items-center">
         <h5>Filters</h5>
@@ -342,7 +362,7 @@
 
 
         <!-- Table -->
-<div class="table-responsive" style="margin-top: 70px;">
+<div class="table-responsive">
 
     <table class="custom-table table table-striped table-bordered text-nowrap" id="table">
         <thead class="bg-light">

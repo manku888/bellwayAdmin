@@ -23,7 +23,7 @@
                                         <h3 class="text-center font-weight-light my-4">Admin Login</h3>
                                     </div>
                                     <div class="card-body">
-                                        <form method="POST" action="{{ route('login') }}">
+                                        <form method="POST" action="{{ route('check') }}">
                                             @csrf
                                             <div class="form-floating mb-3">
                                                 <input class="form-control" id="inputEmail" name="email" type="email" placeholder="name@example.com" required />

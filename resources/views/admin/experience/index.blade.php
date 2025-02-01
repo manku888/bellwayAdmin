@@ -1,37 +1,38 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="container3">
-    <h3>Experience</h3>
-        <!-- s-m -->
-        @if(session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert" id="success-alert">
-                {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
-     <!-- table -->
-    <table class="custom-table2">
-        <thead>
-            <tr>
-                <th>S/N.</th>
-                <th>Full Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Date</th>
-                <th>time</th>
-                <th>Current Location</th>
-                <th>Current CTC</th>
-                <th>Notice Period</th>
-                <th>Total Experience (in years)</th>
-                <th>Resume Link</th>
-                <th>Selected Role</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($experiences as $experience)
+<div class="container mt-4">
+    <h3 class="mb-4">Experience</h3>
+    <!-- s-m -->
+    @if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert" id="success-alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
+    <!-- table -->
+    <div class="table-responsive">
+        <table class="custom-table table table-striped table-bordered text-nowrap" style="background-color: whitesmoke;">
+            <thead>
                 <tr>
+                    <th>S/N.</th>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Date</th>
+                    <th>time</th>
+                    <th>Current Location</th>
+                    <th>Current CTC</th>
+                    <th>Notice Period</th>
+                    <th>Total Experience (in years)</th>
+                    <th>Resume Link</th>
+                    <th>Selected Role</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($experiences as $experience)
+                <tr style="background-color: white;">
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $experience->name }}</td>
                     <td>{{ $experience->email }}</td>
@@ -42,11 +43,13 @@
                     <td>{{ $experience->current_ctc }}</td>
                     <td>{{ $experience->notice_period }}</td>
                     <td>{{ $experience->total_experience }}</td>
-                    <td><a href="{{ $experience->resume_link }}" target="_blank">View Resume</a></td>
+                    <td><a href="{{ $experience->resume_link }}" target="_blank" class="text-decoration-none text-primary d-flex align-items-center" target="_blank">
+                            <i class="fa-solid fa-file-pdf me-2"></i>View Resume
+                        </a></td>
                     <td>{{ $experience->selected_role }}</td>
                     <td style="text-align:center; display:flex; align-items:center;">
                         <button
-                            class="btn btn-primary btn-sm view-experience-btn"
+                            class="btn  btn-sm view-experience-btn"
                             data-name="{{ $experience->name }}"
                             data-email="{{ $experience->email }}"
                             data-phone_no="{{ $experience->phone_no }}"
@@ -62,18 +65,20 @@
                         <!-- delete -->
                         @can('delete experiences')
                         <form action="{{ url('admin/experience/delete', $experience->id) }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn  btn-sm" onclick="return confirm('Are you sure you want to delete this hiring data?')">
-                            <i class="fa-solid fa-trash " style="color: red; margin-top: 15px;"></i>
-                        </button>
-                    </form>
-                    @endcan
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn  btn-sm" onclick="return confirm('Are you sure you want to delete this hiring data?')">
+                                <i class="fa-solid fa-trash " style="color: red; margin-top: 15px;"></i>
+                            </button>
+                        </form>
+                        @endcan
                     </td>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
+                @endforeach
+            </tbody>
+        </table>
+
+    </div>
     <div class="d-flex justify-content-end mt-3 ">
         {{$experiences->links()}}
     </div>
@@ -95,7 +100,7 @@
                 <p><strong>Current CTC:</strong> <span id="modal-exp-ctc"></span></p>
                 <p><strong>Notice Period:</strong> <span id="modal-exp-notice"></span></p>
                 <p><strong>Total Experience:</strong> <span id="modal-exp-experience"></span></p>
-                <p><strong>Resume Link:</strong> <a id="modal-exp-resume" href="#" target="_blank">View Resume</a></p>
+                <p><strong>Resume Link:</strong> <a id="modal-exp-resume" class="text-decoration-none" href="#" target="_blank"><i class="fa-solid fa-file-pdf me-2"></i> View Resume</a></p>
                 <p><strong>Selected Role:</strong> <span id="modal-exp-role"></span></p>
             </div>
             <div class="modal-footer">
@@ -107,12 +112,12 @@
 @endsection
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         // Get all "view" buttons
         const viewButtons = document.querySelectorAll('.view-experience-btn');
 
         viewButtons.forEach(button => {
-            button.addEventListener('click', function () {
+            button.addEventListener('click', function() {
                 // Get data attributes from the clicked button
                 const name = this.getAttribute('data-name');
                 const email = this.getAttribute('data-email');
@@ -142,8 +147,8 @@
         });
     });
 
-      // script for success msg close Automatically after 5 seconds
-      setTimeout(function() {
+    // script for success msg close Automatically after 5 seconds
+    setTimeout(function() {
         let successAlert = document.getElementById('success-alert');
         if (successAlert) {
             successAlert.style.display = 'none';

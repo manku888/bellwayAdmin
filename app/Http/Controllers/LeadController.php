@@ -147,11 +147,17 @@ class LeadController extends Controller implements HasMiddleware
     // }
 
     // Apply permission-based filtering
-    if (Auth::user()->can('View Lead')) {
+    // if (Auth::user()->can('View Lead')) {
+    //     $leads = $query->orderBy('created_at', 'desc')->paginate(10);
+    // } else {
+    //     $leads = $query->where('assignee', $userName)->orderBy('created_at', 'desc')->paginate(10);
+    // }
+    if (Auth::check() && Auth::user()->can('View Lead')) {
         $leads = $query->orderBy('created_at', 'desc')->paginate(10);
     } else {
         $leads = $query->where('assignee', $userName)->orderBy('created_at', 'desc')->paginate(10);
     }
+
 
     // Get colors from LeadsMaster table
     $services = LeadsMaster::where('type', 'service')->where('status', 1)->pluck('bg_color', 'name');
