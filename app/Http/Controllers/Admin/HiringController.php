@@ -15,8 +15,8 @@ class HiringController extends Controller implements HasMiddleware
     {
 
         return[
-           new Middleware('permission:view hiring', only: ['index']),
-           new Middleware('permission:create hiring', only: ['create']),
+           new Middleware('permission:View Hiring', only: ['index']),
+           new Middleware('permission:Create Hiring', only: ['create']),
            new Middleware('permission:delete hiring', only:['destroy'] ),
        ];
     }

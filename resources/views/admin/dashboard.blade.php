@@ -8,7 +8,7 @@
                         </ol>
                         <div class="row">
                             <!-- contact -->
-                             @can('view contact')
+                             @can('View Contact Sales Queries')
                              <div class="col-xl-3 col-md-6 ">
                                 <div class="card  text-black mb-5 " style= " text-align: left; height: 50%; position: relative; padding: 10px; background-color: rgb(225, 238, 255);">
                                     <!-- Logo in the top-right corner -->
@@ -28,7 +28,7 @@
 
                             @endcan
                             <!--Call Request  -->
-                             @can('view callrequests')
+                             @can('View Call Requests Queries')
                             <!-- <div class="col-xl-3 col-md-6">
                                 <div class="card bg-warning text-white mb-4" style="text-align: center;">
                                 <i class="fa-solid fa-phone fa-2xl" style="color: #ffffff; display:block; margin: 20px auto -4px auto;"></i>
@@ -61,7 +61,7 @@
                             @endcan
 
                             <!-- freshers -->
-                            @can('view freshers')
+                            @can('View Freshers Vacancy')
                             <!-- <div class="col-xl-3 col-md-6" style="text-align: center;">
                                 <div class="card bg-success text-white mb-4" >
                                     <img src="/admin/images/admin_logo/fresher2.png" alt="fresher logo is not found " style="height: 45px; width: 45px; display:block; margin: 20px auto -18px auto; ">
@@ -93,7 +93,7 @@
                             @endcan
 
                             <!-- Experience -->
-                             @can('view experiences')
+                             @can('View Experiences Vacancy')
                             <!-- <div class="col-xl-3 col-md-6">
                                 <div class="card bg-danger text-white mb-4" style="text-align: center; " >
                                 <i class="fa-solid fa-trophy fa-2xl" style="color: #ffffff; display:block; margin: 20px auto -4px auto;"></i>
@@ -125,7 +125,7 @@
                             @endcan
 
                             <!--Open-Vacancy -->
-                            @can('view openvacancie')
+                            @can('View Open Vacancy')
                             <!-- <div class="col-xl-3 col-md-6">
                                 <div class="card bg-secondary text-white mb-4" style="text-align: center; ">
                                 <i class="fas fa-briefcase fa-solid fa-2xl" style="color: #ffffff; display:block; margin: 20px auto -4px auto;"></i>

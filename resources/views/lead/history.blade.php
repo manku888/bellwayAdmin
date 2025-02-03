@@ -20,7 +20,8 @@
     <table class="custom-table mt-4 text-nowrap">
         <thead class="bg-light">
             <tr class="text-center">
-            <th>Assignee</th>
+                        <th>Assignee</th>
+                        <th>Updated By</th>
                         <th>S.NO.</th>
                         <th>Created Date</th>
                         <th>Source</th>
@@ -46,6 +47,7 @@
                         {{ $leadhistory->assignee }}
                     </span>
                 </td>
+                <td>{{ $leadhistory->edit_by}}</td>
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ date('d-m-Y g:i A', strtotime($leadhistory->created_at)) }}</td>
                 <td>
@@ -92,15 +94,15 @@
     </table>
 
     <style>
-        / Custom Background Colors /
+        /*  Custom Background Colors  */
         .bg-offwhite {
             background-color: whitesmoke !important;
-            / off-white color /
+             /* off-white color */
         }
 
         .bg-light {
             background-color: #f0f0f0 !important;
-            / light gray for thead /
+             /* light gray for thead  */
         }
     </style>
 

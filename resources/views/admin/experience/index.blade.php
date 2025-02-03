@@ -12,27 +12,29 @@
     @endif
     <!-- table -->
     <div class="table-responsive">
-        <table class="custom-table table table-striped table-bordered text-nowrap" style="background-color: whitesmoke;">
-            <thead>
+    <table class="table table-bordered"
+            style="background-color: whitesmoke;  overflow: hidden;">
+            <thead class="text-center rounded-top " style="background-color:
+#1c99f3; border-top-left-radius: 10px; border-top-right-radius: 10px; color: white;">
                 <tr>
-                    <th>S/N.</th>
-                    <th>Full Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Date</th>
-                    <th>time</th>
-                    <th>Current Location</th>
-                    <th>Current CTC</th>
-                    <th>Notice Period</th>
-                    <th>Total Experience (in years)</th>
-                    <th>Resume Link</th>
-                    <th>Selected Role</th>
-                    <th>Actions</th>
+                    <th  class="py-3">S/N.</th>
+                    <th  class="py-3">Full Name</th>
+                    <th  class="py-3">Email</th>
+                    <th  class="py-3">Phone</th>
+                    <th  class="py-3">Date</th>
+                    <th  class="py-3">time</th>
+                    <th  class="py-3">Current Location</th>
+                    <th  class="py-3">Current CTC</th>
+                    <th  class="py-3">Notice Period</th>
+                    <th  class="py-3">Total Experience (in years)</th>
+                    <th  class="py-3">Resume Link</th>
+                    <th  class="py-3">Selected Role</th>
+                    <th  class="py-3">Actions</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="text-nowrap">
                 @foreach($experiences as $experience)
-                <tr style="background-color: white;">
+                <tr style="background-color: {{ $loop->index % 2 == 0 ? '#f9f9f9;' : 'white' }};">
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $experience->name }}</td>
                     <td>{{ $experience->email }}</td>
@@ -63,7 +65,7 @@
                         </button>
 
                         <!-- delete -->
-                        @can('delete experiences')
+                        @can('Delete Experiences Vacancy')
                         <form action="{{ url('admin/experience/delete', $experience->id) }}" method="POST">
                             @csrf
                             @method('DELETE')

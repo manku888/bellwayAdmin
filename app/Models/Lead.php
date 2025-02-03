@@ -26,6 +26,7 @@ class Lead extends Model
 
     protected $fillable = [
         'assignee',
+        'edit_by', 
         'source',
         'service',
         'status',

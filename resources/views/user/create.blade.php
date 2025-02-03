@@ -28,6 +28,16 @@
                     @enderror
                 </div>
 
+                <!-- color -->
+                 <!-- Background Color -->
+                    <div class="form-group mb-4">
+                        <label class="h6">Background Color</label>
+                        <input type="color" name="bg_color" class="form-control" value="{{ old('bg_color', '#ffffff') }}">
+                        @error('bg_color')
+                        <p class="text-danger mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
                 <!-- Email -->
                 <div class="form-group mb-4">
                     <label class="h6">Email</label>

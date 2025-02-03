@@ -11,22 +11,24 @@
     </div>
     @endif
     <div class="table-responsive">
-        <table class="custom-table table table-striped table-bordered text-nowrap" style="background-color: whitesmoke;">
-            <thead class="bg-light text-center">
+        <table class="table table-bordered"
+            style="background-color: whitesmoke;  overflow: hidden;">
+            <thead class="text-center rounded-top " style="background-color:
+#1c99f3; border-top-left-radius: 10px; border-top-right-radius: 10px; color: white;">
                 <tr>
-                    <th>S/N.</th>
-                    <th>Full Name</th>
-                    <th>City</th>
-                    <th>Phone</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Message</th>
-                    <th>Actions</th>
+                    <th class="py-3">S/N.</th>
+                    <th class="py-3">Full Name</th>
+                    <th class="py-3">City</th>
+                    <th class="py-3">Phone</th>
+                    <th class="py-3">Date</th>
+                    <th class="py-3">Time</th>
+                    <th class="py-3">Message</th>
+                    <th class="py-3">Actions</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="text-nowrap">
                 @foreach($calldatas as $calldata)
-                <tr style="background-color: white;">
+                <tr style="background-color: {{ $loop->index % 2 == 0 ? '#f9f9f9;' : 'white' }};">
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $calldata->name }}</td>
                     <td>{{ $calldata->city }}</td>
@@ -47,7 +49,7 @@
                         </button>
 
                         <!-- delete -->
-                        @can('delete callrequest')
+                        @can('Delete Call Request Queries')
                         <form action="{{ url('admin/call/delete', $calldata->id) }}" method="POST" style="display: inline-block;">
                             @csrf
                             @method('DELETE')

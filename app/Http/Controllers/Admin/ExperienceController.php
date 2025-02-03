@@ -15,7 +15,7 @@ class ExperienceController extends Controller implements HasMiddleware
     {
 
         return[
-           new Middleware('permission:view experiences', only: ['index']),
+           new Middleware('permission:View Experiences Vacancy', only: ['index']),
            new Middleware('permission:delete experiences', only:['destroy'] ),
        ];
     }

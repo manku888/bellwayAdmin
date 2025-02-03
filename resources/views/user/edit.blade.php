@@ -28,6 +28,15 @@
                         @enderror
                     </div>
 
+                    <!-- Background Color -->
+                    <div class="form-group mb-4">
+                        <label class="h6">Background Color</label>
+                        <input type="color" name="bg_color" class="form-control" value="{{ old('bg_color', '#ffffff') }}">
+                        @error('bg_color')
+                        <p class="text-danger mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
                     <div class="form-group mb-4">
                         <label for="email" class="h6 ">Email</label>
                         <input value="{{ old('email',$users->email) }}" name="email" type="email" placeholder="Enter Email"
@@ -36,6 +45,53 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+
+
+                                       <!-- New Password -->
+<div class="form-group mb-4 position-relative">
+    <label class="h6">New Password</label>
+    <div class="input-group">
+        <input type="password" name="password" id="new_password" class="form-control" placeholder="Enter New Password">
+        <button type="button" class="btn btn-outline-secondary" onclick="togglePassword('new_password', 'eye-icon-new')">
+            <i id="eye-icon-new" class="fas fa-eye"></i>
+        </button>
+    </div>
+    @error('password')
+    <p class="text-danger mt-1">{{ $message }}</p>
+    @enderror
+</div>
+
+<!-- Confirm New Password -->
+<div class="form-group mb-4 position-relative">
+    <label class="h6">Confirm New Password</label>
+    <div class="input-group">
+        <input type="password" name="confirm_password" id="confirm_new_password" class="form-control" placeholder="Confirm New Password">
+        <button type="button" class="btn btn-outline-secondary" onclick="togglePassword('confirm_new_password', 'eye-icon-confirm-new')">
+            <i id="eye-icon-confirm-new" class="fas fa-eye"></i>
+        </button>
+    </div>
+    @error('confirm_password')
+    <p class="text-danger mt-1">{{ $message }}</p>
+    @enderror
+</div>
+
+
+<script>
+    function togglePassword(inputId, eyeIconId) {
+        let passwordInput = document.getElementById(inputId);
+        let eyeIcon = document.getElementById(eyeIconId);
+
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            eyeIcon.classList.remove("fa-eye");
+            eyeIcon.classList.add("fa-eye-slash");
+        } else {
+            passwordInput.type = "password";
+            eyeIcon.classList.remove("fa-eye-slash");
+            eyeIcon.classList.add("fa-eye");
+        }
+    }
+</script>
 
                     <div class="form-group mb-5">
                         <label class="h6 ">Roles</label>

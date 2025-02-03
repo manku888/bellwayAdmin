@@ -46,19 +46,20 @@
     <div class="card shadow-sm">
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-striped table-bordered mb-0">
-                    <thead>
+            <thead class="text-center rounded-top " style="background-color:
+#1c99f3; border-top-left-radius: 10px; border-top-right-radius: 10px; color: white;">
                         <tr>
-                            <th>SNo.</th>
-                            <th>Name</th>
-                            <th>Background Color</th>
-                            <th>Status</th>
-                            <th>Actions</th>
+                            <th class="py-3">SNo.</th>
+                            <th class="py-3">Name</th>
+                            <th class="py-3">Background Color</th>
+                            <th class="py-3">Status</th>
+                            <th class="py-3">Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="text-nowrap">
                         @foreach ($items as $key => $item)
                         <tr>
+                        <tr style="background-color: {{ $loop->index % 2 == 0 ? '#f9f9f9;' : 'white' }};">
                             <td>{{ $key + 1 }}</td>
                             <td>{{ $item->name }}</td>
                             <td>

@@ -11,7 +11,7 @@
         <!-- Use PUT for update -->
 
         <!-- Pencil Icon -->
-         @can('view-edit lead')
+         @can('View-Edit Lead')
         <div class="text-end">
             <button type="button" id="editButton" class="btn btn-outline-secondary">
             <i class="fa-solid fa-pen   "></i>

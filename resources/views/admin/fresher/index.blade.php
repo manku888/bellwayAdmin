@@ -11,23 +11,25 @@
     </div>
     @endif
     <div class="table-responsive">
-        <table class="custom-table table table-striped table-bordered text-nowrap" style="background-color: whitesmoke;">
-            <thead class="bg-light text-center">
+    <table class="table table-bordered"
+            style="background-color: whitesmoke;  overflow: hidden;">
+            <thead class="text-center rounded-top " style="background-color:
+#1c99f3; border-top-left-radius: 10px; border-top-right-radius: 10px; color: white;">
                 <tr>
-                    <th>S/N.</th>
-                    <th>Full Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Date</th>
-                    <th>time</th>
-                    <th>Resume</th>
-                    <th>Cover Letter</th>
-                    <th>Actions</th>
+                    <th  class="py-3">S/N.</th>
+                    <th  class="py-3">Full Name</th>
+                    <th  class="py-3">Email</th>
+                    <th  class="py-3">Phone</th>
+                    <th  class="py-3">Date</th>
+                    <th  class="py-3">time</th>
+                    <th  class="py-3">Resume</th>
+                    <th  class="py-3">Cover Letter</th>
+                    <th  class="py-3">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($fresherdatas as $fresherdata)
-                <tr style="background-color: white;">
+                <tr style="background-color: {{ $loop->index % 2 == 0 ? '#f9f9f9;' : 'white' }};">
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $fresherdata->name }}</td>
                     <td>{{ $fresherdata->email }}</td>
@@ -49,7 +51,7 @@
                         </button>
 
                         <!-- delete -->
-                        @can('delete freshers')
+                        @can('Delete Freshers Vacancy')
                         <form action="{{ url('admin/fresher/delete', $fresherdata->id) }}" method="POST" style="display: inline-block;">
                             @csrf
                             @method('DELETE')

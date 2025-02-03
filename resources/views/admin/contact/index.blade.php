@@ -10,26 +10,27 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     @endif
-
     <div class="table-responsive">
-        <table class="custom-table table table-striped table-bordered text-nowrap" style="background-color: whitesmoke;">
-            <thead class="bg-light text-center">
-                <tr>
-                    <th>S/N.</th>
-                    <th>Full Name</th>
-                    <th>City</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Service of Interest</th>
-                    <th>Message</th>
-                    <th>Actions</th>
+        <table class="table table-bordered"
+            style="background-color: whitesmoke;  overflow: hidden;">
+            <thead class="text-center rounded-top " style="background-color:
+#1c99f3; border-top-left-radius: 10px; border-top-right-radius: 10px; color: white;">
+                <tr >
+                    <th class="py-3">S/N.</th>
+                    <th class="py-3">Full Name</th>
+                    <th class="py-3">City</th>
+                    <th class="py-3">Email</th>
+                    <th class="py-3">Phone</th>
+                    <th class="py-3">Date</th>
+                    <th class="py-3">Time</th>
+                    <th class="py-3">Service of Interest</th>
+                    <th class="py-3">Message</th>
+                    <th class="py-3">Actions</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="text-nowrap">
                 @foreach($contacts as $contact)
-                <tr style="background-color: white;">
+                <tr style="background-color: {{ $loop->index % 2 == 0 ? '#f9f9f9;' : 'white' }};">
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $contact->full_name }}</td>
                     <td>{{ $contact->city }}</td>
@@ -38,13 +39,12 @@
                     <td>{{$contact->date}}</td>
                     <td>{{$contact->time}}</td>
                     <td>{{ implode(', ', $contact->service_of_interest) }}</td>
-                    <td style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 200px;">{{ $contact->message }}</td>
+                    <td style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 200px;">
+                        {{ $contact->message }}
+                    </td>
                     <td style="text-align: center;">
-                        <button
-                            class="btn btn-sm view-btn"
-                            data-full_name="{{ $contact->full_name }}"
-                            data-city="{{ $contact->city }}"
-                            data-email="{{ $contact->email }}"
+                        <button class="btn btn-sm view-btn" data-full_name="{{ $contact->full_name }}"
+                            data-city="{{ $contact->city }}" data-email="{{ $contact->email }}"
                             data-phone_no="{{ $contact->phone_no }}"
                             data-service_of_interest="{{ implode(', ', $contact->service_of_interest) }}"
                             data-message="{{ $contact->message }}">
@@ -53,11 +53,13 @@
 
                         <!-- Delete Button -->
                         @can('delete contact')
-                        <form action="{{ url('admin/contacts/delete', $contact->id) }}" method="POST" style="display: inline-block;">
+                        <form action="{{ url('admin/contacts/delete', $contact->id) }}" method="POST"
+                            style="display: inline-block;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn  btn-sm" onclick="return confirm('Are you sure you want to delete this hiring data?')">
-                                <i class="fa-solid fa-trash " style="color: red;"></i>
+                            <button type="submit" class="btn btn-sm"
+                                onclick="return confirm('Are you sure you want to delete this hiring data?')">
+                                <i class="fa-solid fa-trash" style="color: red;"></i>
                             </button>
                         </form>
                         @endcan
@@ -67,6 +69,7 @@
             </tbody>
         </table>
     </div>
+
 
 
     <div class="d-flex justify-content-end mt-3 ">
@@ -89,7 +92,9 @@
                 <p><strong>Phone:</strong> <span id="modal-phone"></span></p>
                 <p><strong>Service of Interest:</strong> <span id="modal-service"></span></p>
                 <p><strong>Message:</strong></p>
-                <div id="modal-message" style="border: 1px solid #ddd; padding: 10px; border-radius: 5px; background: #f9f9f9; max-height: 300px; overflow-y: auto; white-space: pre-wrap; word-break: break-word;"></div>
+                <div id="modal-message"
+                    style="border: 1px solid #ddd; padding: 10px; border-radius: 5px; background: #f9f9f9; max-height: 300px; overflow-y: auto; white-space: pre-wrap; word-break: break-word;">
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

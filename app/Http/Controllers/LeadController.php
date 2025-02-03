@@ -26,9 +26,9 @@ class LeadController extends Controller implements HasMiddleware
 
         return[
            new Middleware('permission:Add Lead', only: ['create']),
-           new Middleware('permission:edit lead', only: ['editupdate']),
-           new Middleware('permission:view-edit lead', only: ['update']),
-           new Middleware('permission:history lead', only: ['history']),
+           new Middleware('permission:Edit Lead', only: ['editupdate']),
+           new Middleware('permission:View-Edit Lead', only: ['update']),
+           new Middleware('permission:History Lead', only: ['history']),
            new Middleware('permission:Delete Lead', only:['destroy'] ),
        ];
     }
@@ -152,19 +152,20 @@ class LeadController extends Controller implements HasMiddleware
     // } else {
     //     $leads = $query->where('assignee', $userName)->orderBy('created_at', 'desc')->paginate(10);
     // }
-    if (Auth::check() && Auth::user()->can('View Lead')) {
+    if (Auth::check() && Auth::user()->can('View All Assigne Leads')) {
         $leads = $query->orderBy('created_at', 'desc')->paginate(10);
     } else {
         $leads = $query->where('assignee', $userName)->orderBy('created_at', 'desc')->paginate(10);
     }
 
-
+    
     // Get colors from LeadsMaster table
     $services = LeadsMaster::where('type', 'service')->where('status', 1)->pluck('bg_color', 'name');
     $statuses = LeadsMaster::where('type', 'status')->where('status', 1)->pluck('bg_color', 'name');
     $sources  = LeadsMaster::where('type', 'source')->where('status', 1)->pluck('bg_color', 'name');
-
-    return view('lead.list', compact('leads', 'services', 'statuses', 'sources', 'assignees', 'servicess', 'sourcess'));
+    $assigneecolors = DB::table('admins')->pluck('bg_color','name');
+    //  dd( $assigneecolors);
+    return view('lead.list', compact('leads', 'services', 'statuses', 'sources', 'assignees', 'servicess', 'sourcess','assigneecolors'));
 }
 
 
@@ -331,8 +332,9 @@ class LeadController extends Controller implements HasMiddleware
             // $lead->last_follow_up_date = $request->last_follow_up_date;
             $lead->follow_up_date = $request->follow_up_date;
 
+
             // Save the updated lead
-            $lead->save();
+             $lead->save();
 
             // Redirect back to the lead index with success message
             return redirect()->route('lead.index')->with('success', 'Lead updated successfully and saved history table');
@@ -377,6 +379,9 @@ class LeadController extends Controller implements HasMiddleware
             'last_follow_up_date' =>$lead->last_follow_up_date,
             'follow_up_date' => $lead->follow_up_date,
             'follow_up' => 'done',
+            // 'edit_by' => DB::table('admins')->where('id', Auth::id())->value('name'),
+            'edit_by' =>$lead->edit_by,
+
         ]);
 
 
@@ -398,6 +403,8 @@ class LeadController extends Controller implements HasMiddleware
 
         // Save the updated lead
         // dd($lead);
+        $lead->edit_by = DB::table('admins')->where('id', Auth::id())->value('name');
+            // dd($lead->edit_by);
         $lead->save();
 
         // Redirect back to the lead index with success message

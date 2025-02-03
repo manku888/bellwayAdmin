@@ -14,9 +14,9 @@ class OpenVacancieController extends Controller implements HasMiddleware
     {
 
         return[
-           new Middleware('permission:view openvacancie', only: ['index']),
+           new Middleware('permission:View Open Vacancy', only: ['index']),
         //    new Middleware('permission:create openvacancie', only: ['create']),
-           new Middleware('permission:delete openvacancie', only:['destroy'] ),
+           new Middleware('permission:Delete Open Vacancy', only:['destroy'] ),
        ];
     }
     public function index()

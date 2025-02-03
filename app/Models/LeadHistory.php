@@ -10,6 +10,7 @@ class LeadHistory extends Model
     protected $fillable = [
         'lead_id',
         'assignee',
+        'edit_by',
         'source',
         'service',
         'status',
@@ -22,5 +23,6 @@ class LeadHistory extends Model
         'last_follow_up_date',
         'follow_up_date',
         'follow_up',
+
     ];
 }

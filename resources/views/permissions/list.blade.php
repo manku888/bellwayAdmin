@@ -6,17 +6,21 @@
 
     <div class="d-flex justify-content-between align-items-center py-2">
         <h3 class="text-center mb-4">Permissions</h3>
+        @can('Create Permission')
         <a href="{{ route('permissions.create') }}" class="btn btn-outline-secondary btn-sm"><i class="fa-solid fa-plus"></i> &nbsp Create new Permission</a>
+        @endcan
     </div>
 
     <div class="table-responsive ">
-        <table class="table table-striped table-bordered text-nowrap">
-            <thead class="bg-light">
+    <table class="table table-bordered"
+            style="background-color: whitesmoke;  overflow: hidden;">
+            <thead class="text-center rounded-top " style="background-color:
+#1c99f3; border-top-left-radius: 10px; border-top-right-radius: 10px; color: white;">
                 <tr class="text-center">
-                    <th>S/N</th>
-                    <th>Name</th>
-                    <th>Created</th>
-                    <th>Action</th>
+                    <th class="py-3">S/N</th>
+                    <th class="py-3">Name</th>
+                    <th class="py-3">Created</th>
+                    <th class="py-3">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -26,18 +30,20 @@
                 @endphp
 
                 @foreach ($permissions as $permission)
-                <tr class="{{ $loop->odd ? 'bg-white' : 'custom-bg-offwhite' }}">
+                <tr style="background-color: {{ $loop->index % 2 == 0 ? '#f9f9f9;' : 'white' }};">
                     <td class="text-center">{{ $serial++ }}</td>
                     <td>{{ $permission->name }}</td>
                     <td class="text-center">{{ $permission->created_at->format('d M, Y') }}</td>
                     <td class="text-center">
                         <div class="btn-group  ">
                             <!-- Edit Button -->
+                             @can('Edit Permission')
                             <a href="{{ route('permissions.edit', $permission->id) }}" class="btn  btn-md text-warning">
                                 <i class="fa-solid fa-pen"></i>
                             </a>
-
+                            @endcan
                             <!-- Delete Form -->
+                             @can('Delete Permission')
                             <form action="{{ route('permissions.destroy', $permission->id) }}" method="post">
                                 @csrf
                                 @method('delete')
@@ -46,6 +52,7 @@
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
                             </form>
+                            @endcan
                         </div>
                     </td>
                 </tr>
@@ -60,15 +67,6 @@
     </div>
 </div>
 
-<!-- Custom Styling -->
-<style>
-    .custom-bg-offwhite {
-        background-color: whitesmoke !important;
-    }
 
-    .bg-light {
-        background-color: #f0f0f0 !important;
-    }
-</style>
 
 @endsection

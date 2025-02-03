@@ -5,20 +5,22 @@
 <div class="container mt-4">
     <h3 class="mb-4">Hiring Data</h3>
     <div class="table-responsive">
-        <table class="custom-table table table-striped table-bordered text-nowrap" style="background-color: whitesmoke;">
-            <thead>
+    <table class="table table-bordered"
+            style="background-color: whitesmoke;  overflow: hidden;">
+            <thead class="text-center rounded-top " style="background-color:
+#1c99f3; border-top-left-radius: 10px; border-top-right-radius: 10px; color: white;">
                 <tr>
-                    <th>S/N.</th>
-                    <th>Position</th>
-                    <th>Experience</th>
-                    <th>Date</th>
-                    <th>time</th>
-                    <th>Actions</th>
+                    <th class="py-3">S/N.</th>
+                    <th class="py-3">Position</th>
+                    <th class="py-3">Experience</th>
+                    <th class="py-3">Date</th>
+                    <th class="py-3">time</th>
+                    <th class="py-3">Actions</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="text-nowrap">
                 @foreach ($hirings as $hiring )
-                <tr style="background-color: white;">
+                <tr style="background-color: {{ $loop->index % 2 == 0 ? '#f9f9f9;' : 'white' }};">
                     <td>{{ $loop->iteration }}</td>
                     <td>{{$hiring->positions}}</td>
                     <td>{{$hiring->experience}}</td>
@@ -31,7 +33,7 @@
                         </a> -->
 
                         <!-- Delete Button -->
-                        @can('delete hiring')
+                        @can('Delete Hiring')
                         <form action="{{ url('admin/hiring/delete', $hiring->id) }}" method="POST" style="display: inline-block;">
                             @csrf
                             @method('DELETE')

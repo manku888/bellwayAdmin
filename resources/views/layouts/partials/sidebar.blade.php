@@ -36,7 +36,7 @@
                                 <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
 
                                     <a class="nav-link collapsed text-black " href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
-                                    @can('contact')
+                                    @can('Contact Queries')
                                   <div style="font-size: 14px; transform: 0.3;" onmouseover="this.style.color='red'" onmouseout="this.style.color='black'"> Contact </div>
 
                                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
@@ -44,10 +44,10 @@
                                     @endcan
                                     <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                                         <nav class="sb-sidenav-menu-nested nav">
-                                        @can('view contact')
+                                        @can('View Contact Sales Queries')
                                             <a class="nav-link text-black" style="font-size:13px;" href="{{url('admin/contacts')}}">Contact Sales</a>
                                         @endcan
-                                            @can('view callrequests')
+                                            @can('View Call Requests Queries')
                                             <a class="nav-link text-black" style="font-size:13px;" href="{{url('admin/call')}}">Call Request</a>
                                             @endcan
                                             <!-- <a class="nav-link" href="password.html">Forgot Password</a> -->
@@ -68,7 +68,7 @@
                             </a> -->
 
                             <!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
-     @can('Lead')                        <!-- "manage leads" permission ke liye -->
+     @can('Leads')                        <!-- "manage leads" permission ke liye -->
     <a class="nav-link collapsed text-black" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLead" aria-expanded="false" aria-controls="collapseLead">
         <img src="/admin/images/admin_logo/lead.png" style="height:7%; width:11%; margin:7px;" alt="lead logo">
 
@@ -87,10 +87,10 @@
           @can('Add Lead')
          <a class="nav-link text-black" style="font-size:14px;" href="{{ url('admin/lead/create') }}"> <i class="fa-solid fa-plus"> </i>  &nbsp Add Lead</a>
          @endcan
-         @can('own leads')
+
         <a class="nav-link text-black" style="font-size:14px;" href="{{ url('admin/lead/index') }}">All Leads</a>
 
-        @endcan
+
 
 
 
@@ -128,7 +128,7 @@
                             <!-- hiring -->
                              <!-- ishki help se hum sidebar mai options ko show or hide kr skte hai -->
                              <!-- with the help of this can method we can show or hide options on sidebar -->
-                             @can('hiring')
+                             @can('Hiring')
                             <a class="nav-link collapsed text-black"  href="#" data-bs-toggle="collapse" data-bs-target="#collapseBlog" aria-expanded="false" aria-controls="collapseBlog">
                                 <!-- <div class="sb-nav-link-icon"><i class="fas fa-id-users"></i></div> -->
                                 <img src="/admin/images/admin_logo/hiring.png" style="height:6%; width:10%; margin:7px;" alt="query logo">
@@ -145,19 +145,24 @@
 
                                      <!-- ishki help se hum sidebar mai options ko show or hide kr skte hai -->
                                      <!-- with the help of this can method we can show or hide options on sidebar -->
-                                    @can('create hiring')
+                                    @can('Create Hiring')
                                     <a class="nav-link text-black " style="font-size:14px;" href="{{url('admin/hiring')}}">Create Hiring</a>
                                     @endcan
 
 
                                     <!-- ishki help se hum sidebar mai options ko show or hide kr skte hai -->
                                      <!-- with the help of this can method we can show or hide options on sidebar -->
-                                    @can('view hiring')
+                                    @can('View Hiring')
                                     <a class="nav-link text-black" style="font-size:14px;" href="{{url('admin/hiring/index')}}">Show Hiring</a>
                                     @endcan
                                     <!-- blog.drafts -->
                                     <!-- <a class="nav-link" href="#">Drafts</a> -->
-                                    @can('vacancie')
+
+                                </nav>
+                            </div>
+                            <!-- hiring -->
+                            <!-- vacancy -->
+                            @can('Vacancy')
                                     <a class="nav-link collapsed text-black" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
                                   <div style="font-size: 14px; transform: 0.3;" onmouseover="this.style.color='red'" onmouseout="this.style.color='black'"> Vacancies </div>
                                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
@@ -165,28 +170,32 @@
                                     @endcan
                                     <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                                         <nav class="sb-sidenav-menu-nested nav">
-                                        @can('view openvacancie')
+                                        @can('View Open Vacancy')
                                             <a class="nav-link text-black" style="font-size:13px;" href="{{url('admin/openvacancie')}}">Open Vacancy</a>
                                             @endcan
-                                            @can('view freshers')
+                                            @can('View Freshers Vacancy')
                                             <a class="nav-link text-black" style="font-size:13px;" href="{{url('admin/fresher')}}">Fresher</a>
                                             @endcan
 
-                                            @can('view experiences')
+                                            @can('View Experiences Vacancy')
                                             <a class="nav-link text-black" style="font-size:14px;" href="{{url('admin/experience')}}">Experience</a>
                                             @endcan
                                             <!-- <a class="nav-link" href="404.html">Create Vacancy</a> -->
                                         </nav>
                                     </div>
-                                </nav>
-                            </div>
+
+                                    <!-- vacancy -->
+
+
+
+
                             <!-- blog -->
 
                             @can('blog')
                             <a class="nav-link text-black" style="font-size:15px;" href="#">Blogs</a>
                             @endcan
                             <!-- Give Permissions Section -->
-                            @can('view user-management')
+                            @can('User Management Permission')
 
                                 <a class="nav-link collapsed text-black"  href="#" data-bs-toggle="collapse" data-bs-target="#collapsePermissions" aria-expanded="false" aria-controls="collapsePermissions">
                                     <!-- <div class="sb-nav-link-icon"><i class="fas fa-user-shield"></i></div> -->
@@ -199,15 +208,15 @@
                             @endcan
                         <div class="collapse" id="collapsePermissions" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
-                                @can('view role')
+                                @can('View Role')
                                 <a class="nav-link text-black" style="font-size:13px;" href="{{url('admin/role/index')}}">Roles</a>
                                 @endcan
 
-                                @can('view permission')
+                                @can('View Permission')
                                 <a class="nav-link text-black "style="font-size:13px;" href="{{url('admin/permissions/index')}}">Permissions</a>
                                 @endcan
                                 <!-- <a class="nav-link" href="#">Articles</a> -->
-                                 @can('view user')
+                                 @can('View User')
                                 <a class="nav-link text-black "style="font-size:13px;" href="{{url('admin/user/index')}}">User Section</a>
                                  @endcan
                             </nav>

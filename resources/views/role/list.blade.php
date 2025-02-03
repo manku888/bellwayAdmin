@@ -6,23 +6,27 @@
 
     <div class="d-flex justify-content-between align-items-center py-2">
         <h3 class="">Roles</h3>
+        @can('Create Role')
         <a href="{{ route('role.create') }}" class="btn btn-outline-secondary btn-sm"><i class="fa-solid fa-plus"></i> &nbsp Create Role</a>
+        @endcan
     </div>
 
     <div class="table-responsive ">
-        <table class="table table-striped table-bordered ">
-            <thead class="bg-light">
+    <table class="table table-bordered"
+            style="background-color: whitesmoke;  overflow: hidden;">
+            <thead class="text-center rounded-top " style="background-color:
+#1c99f3; border-top-left-radius: 10px; border-top-right-radius: 10px; color: white;">
                 <tr class="text-center">
-                    <th>S/N</th>
-                    <th>Name</th>
-                    <th>Permissions</th>
-                    <th>Created</th>
-                    <th>Action</th>
+                    <th  class="py-3">S/N</th>
+                    <th  class="py-3">Name</th>
+                    <th  class="py-3">Permissions</th>
+                    <th  class="py-3">Created</th>
+                    <th  class="py-3">Action</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($roles as $role)
-                <tr class="{{ $loop->odd ? 'bg-white' : 'custom-bg-offwhite' }}">
+                <tr style="background-color: {{ $loop->index % 2 == 0 ? '#f9f9f9;' : 'white' }};">
                     <td class="text-center">{{ $loop->iteration }}</td>
                     <td>{{ $role->name }}</td>
                     <td>{{ $role->permissions->pluck('name')->implode(', ') }}</td>
@@ -30,11 +34,13 @@
                     <td class="text-center">
                         <div class="btn-group d-flex gap-2">
                             <!-- Edit Button -->
+
                             <a href="{{ route('role.edit', $role->id) }}" class="btn text-warning btn-md">
                                 <i class="fa-solid fa-pen"></i>
                             </a>
 
                             <!-- Delete Form -->
+                             @can('Delete Role')
                             <form action="{{ route('role.destroy', $role->id) }}" method="post">
                                 @csrf
                                 @method('delete')
@@ -43,6 +49,7 @@
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
                             </form>
+                            @endcan
                         </div>
                     </td>
                 </tr>
@@ -57,15 +64,6 @@
     </div>
 </div>
 
-<!-- Custom Styling -->
-<style>
-    .custom-bg-offwhite {
-        background-color: whitesmoke !important;
-    }
 
-    .bg-light {
-        background-color: #f0f0f0 !important;
-    }
-</style>
 
 @endsection

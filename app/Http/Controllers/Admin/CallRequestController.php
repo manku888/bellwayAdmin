@@ -15,8 +15,8 @@ class CallRequestController extends Controller implements HasMiddleware
     {
 
         return[
-           new Middleware('permission:view callrequests', only: ['index']),
-           new Middleware('permission:delete callrequest', only:['destroy'] ),
+           new Middleware('permission:View Call Requests Queries', only: ['index']),
+           new Middleware('permission:Delete Call Request Queries', only:['destroy'] ),
        ];
     }
 

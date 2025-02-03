@@ -5,7 +5,7 @@
 <div class="container ">
 
     <!-- Create Button -->
-    @can('create user')
+    @can('Create User')
     <div class="d-flex justify-content-between align-items-center py-2">
         <h3 class="text-center mb-4">Users</h3>
         <a href="{{ route('user.create') }}" class="btn btn-outline-secondary btn-sm"><i class="fa-solid fa-plus"></i> &nbsp Create new User</a>
@@ -14,33 +14,41 @@
 
     <!-- Responsive Table -->
     <div class="table-responsive">
-        <table class="table table-striped table-bordered text-nowrap">
-            <thead class="bg-light">
+    <table class="table table-bordered"
+            style="background-color: whitesmoke;  overflow: hidden;">
+            <thead class="text-center rounded-top " style="background-color:
+#1c99f3; border-top-left-radius: 10px; border-top-right-radius: 10px; color: white;">
                 <tr class="text-center">
-                    <th>S/N</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Created</th>
-                    <th>Action</th>
+                    <th class="py-3">S/N</th>
+                    <th class="py-3">Name</th>
+                    <th>Background Color</th>
+                    <th class="py-3">Email</th>
+                    <th class="py-3">Role</th>
+                    <th class="py-3">Created</th>
+                    <th class="py-3">Action</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($users as $index => $user)
-                <tr class="{{ $loop->odd ? 'bg-white' : 'custom-bg-offwhite' }}">
+                <tr style="background-color: {{ $loop->index % 2 == 0 ? '#f9f9f9;' : 'white' }};">
                     <td class="text-center">{{ $index + 1 }}</td>
                     <td>{{ $user->name }}</td>
+                    <td>
+                         <span class="badge rounded-pill" style="background-color: {{ $user->bg_color }};">{{ $user->bg_color }}</span>
+                    </td>
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->roles()->pluck('name')->implode(', ') }}</td>
                     <td class="text-center">{{ $user->created_at->format('d M, Y') }}</td>
                     <td class="text-center">
                         <div class="btn-group ">
                             <!-- Edit Button -->
+                             @can('Edit User')
                             <a href="{{ route('user.edit', $user->id) }}" class="btn text-warning btn-md">
                                 <i class="fa-solid fa-pen"></i>
                             </a>
-
+                            @endcan
                             <!-- Delete Form -->
+                             @can('Delete User')
                             <form action="{{ route('user.destroy', $user->id) }}" method="post">
                                 @csrf
                                 @method('delete')
@@ -49,6 +57,7 @@
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
                             </form>
+                            @endcan
                         </div>
                     </td>
                 </tr>
@@ -63,15 +72,6 @@
     </div>
 </div>
 
-<!-- Custom Styling -->
-<style>
-    .custom-bg-offwhite {
-        background-color: whitesmoke !important;
-    }
 
-    .bg-light {
-        background-color: #f0f0f0 !important;
-    }
-</style>
 
 @endsection

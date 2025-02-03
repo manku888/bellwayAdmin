@@ -15,8 +15,8 @@ class FresherController extends Controller implements HasMiddleware
     {
 
         return[
-           new Middleware('permission:view freshers', only: ['index']),
-           new Middleware('permission:delete freshers', only:['destroy'] ),
+           new Middleware('permission:View Freshers Vacancy', only: ['index']),
+           new Middleware('permission:Delete Freshers Vacancy', only:['destroy'] ),
        ];
     }
 
